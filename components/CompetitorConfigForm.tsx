@@ -210,7 +210,7 @@ export default function CompetitorConfigForm({ onConfigSaved }: CompetitorConfig
                     type="text"
                     value={kw}
                     onChange={(e) => updateKeyword(idx, e.target.value)}
-                    placeholder="legal time tracking"
+                    placeholder="e.g. project management software"
                     className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                   <button

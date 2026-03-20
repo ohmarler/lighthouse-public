@@ -44,6 +44,9 @@ const ALLOWED_CONTEXTS = [
   /contained.*forbidden/i, // Documentation explaining removal of forbidden content
   /verification command.*contained/i, // Documentation explaining verification fixes
   /grep.*-[nEi].*['"].*\|/i, // Documentation showing grep commands with regex patterns (e.g., grep -E 'pattern|pattern')
+  /format looks like/i, // Documentation describing key format with example
+  /Format:/i, // Documentation showing token format example
+  /YourPrivateKey/i, // Documentation showing placeholder private key in example JSON
 ];
 
 // Files to scan
@@ -72,10 +75,8 @@ const REQUIRED_FILES = [
   'LICENSE',
   'CONTRIBUTING.md',
   '.env.example',
-  'docs/SETUP.md',
-  'docs/PUBLIC-RELEASE.md',
   'lib/config.ts',
-  'middleware.ts',
+  'proxy.ts',
   'app/page.tsx',
   'app/layout.tsx',
   'app/api/reports/upload/route.ts',

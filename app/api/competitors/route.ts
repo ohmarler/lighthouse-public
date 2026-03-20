@@ -241,7 +241,17 @@ The article should position your brand as a thought leader while providing genui
     // Keyword Suggestions
     if (analysisType === 'full' || analysisType === 'keywords') {
       console.log('Getting keyword suggestions...');
-      const suggestions = await getKeywordSuggestions('legal time tracking', 2840, 'en', 30);
+      // Derive seed keyword from user-configured keywords, or fall back to
+      // the target domain name as a generic seed
+      const seedKeyword = TARGET_KEYWORDS.length > 0
+        ? TARGET_KEYWORDS[0]
+        : config.app.targetDomain.split('.')[0];
+      const suggestions = await getKeywordSuggestions(
+        seedKeyword,
+        config.competitors.locationCode,
+        config.competitors.languageCode,
+        30
+      );
       response.keywordSuggestions = suggestions.map(s => ({
         keyword: s.keyword,
         searchVolume: s.searchVolume,

@@ -12,12 +12,13 @@ export const config = {
     /*
      * Match all request paths except:
      * - /api/auth (NextAuth routes)
-     * - /api/reports/upload (CI upload endpoint - uses Bearer token auth)
+     * - /api/reports/upload (CI upload endpoint - uses HMAC auth)
      * - /auth/* (all auth pages including signin, error, debug)
      * - /_next (Next.js internals)
      * - /favicon.ico, /robots.txt (static files)
      * - /reports (allow public access to Lighthouse HTML reports)
+     * - /brand/* (public brand assets: logo, favicon - required on sign-in page)
      */
-    '/((?!api/auth|api/reports/upload|auth|_next|favicon.ico|robots.txt|reports).*)',
+    '/((?!api/auth|api/reports/upload|auth|_next|favicon.ico|robots.txt|reports|brand).*)',
   ],
 };

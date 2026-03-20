@@ -312,14 +312,20 @@ export const config = new Proxy({} as Config, {
 // ============================================
 
 /**
- * Check if AI insights feature is available
+ * Returns true if AI insights are configured and available.
+ * In this deployment model, AI configuration is required at startup —
+ * if the application is running, this function invariably returns true.
+ * Retained for API compatibility and future conditional deployment models.
  */
 export function isAIEnabled(): boolean {
+  // Configuration is validated as required in loadConfig().
+  // This guard is retained for API stability and future optional-mode support.
   return !!getConfig().ai.apiKey;
 }
 
 /**
- * Check if competitor analysis feature is available
+ * Returns true if DataForSEO competitor analysis is configured and available.
+ * @see isAIEnabled for invariant documentation.
  */
 export function isCompetitorAnalysisEnabled(): boolean {
   const cfg = getConfig();
@@ -327,7 +333,8 @@ export function isCompetitorAnalysisEnabled(): boolean {
 }
 
 /**
- * Check if Google Analytics integration is available
+ * Returns true if Google Analytics integration is configured and available.
+ * @see isAIEnabled for invariant documentation.
  */
 export function isAnalyticsEnabled(): boolean {
   const cfg = getConfig();

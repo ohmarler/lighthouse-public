@@ -16,15 +16,26 @@ Replace these files with your own brand assets:
 - **Format**: SVG or ICO
 - **Usage**: Browser tab icon
 
-## Environment Variables
+## Local Development (without committing your real assets)
 
-Instead of replacing files, you can point to different paths:
+`public/brand/local/` is gitignored. Drop your real files there and point
+to them via `.env.local` — the committed placeholder files stay untouched:
 
 ```bash
-# Custom logo path (relative to public/)
-NEXT_PUBLIC_BRAND_LOGO_PATH=/your-logo.svg
+# public/brand/local/logo.svg    ← your real logo (gitignored)
+# public/brand/local/favicon.svg ← your real favicon (gitignored)
 
-# Custom favicon path
+# In .env.local:
+NEXT_PUBLIC_BRAND_LOGO_PATH=/brand/local/logo.svg
+NEXT_PUBLIC_BRAND_FAVICON_PATH=/brand/local/favicon.svg
+```
+
+## Environment Variables
+
+To point to any other path (relative to `public/`):
+
+```bash
+NEXT_PUBLIC_BRAND_LOGO_PATH=/your-logo.svg
 NEXT_PUBLIC_BRAND_FAVICON_PATH=/your-favicon.svg
 ```
 

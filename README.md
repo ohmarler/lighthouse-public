@@ -67,7 +67,7 @@ All features are included for this cost. No hidden fees or surprise charges.
 
 ## Clean-Room Setup (Beginner Friendly)
 
-Use this path when you want a fresh, zero‑context setup from a clean clone. It focuses on the required integrations and the exact order of actions so you can validate and deploy without guessing. Follow the full step‑by‑step guide in [`docs/clean-room.md`](docs/clean-room.md:1).
+Use this path when you want a fresh, zero‑context setup from a clean clone. It focuses on the required integrations and the exact order of actions so you can validate and deploy without guessing.
 
 **Clean‑room phases (short checklist):**
 - [ ] Clone + install dependencies → verify local run
@@ -96,11 +96,11 @@ During setup, you'll create and add these to your `.env` file:
 | `GOOGLE_CLIENT_ID` | Google Cloud | `123456.apps.googleusercontent.com` |
 | `GOOGLE_CLIENT_SECRET` | Google Cloud | `GOCSPX-...` |
 | `ANTHROPIC_API_KEY` | Anthropic Console | `sk-ant-api03-...` |
-| `AI_MODEL` | Anthropic (model name) | Set to the required model in `.env.example` |
+| `AI_MODEL` | Anthropic (model name) | `claude-3-5-haiku-20241022` |
 | `DATAFORSEO_LOGIN` | DataForSEO | Your email |
 | `DATAFORSEO_PASSWORD` | DataForSEO | API password |
-| `DATAFORSEO_LOCATION_CODE` | DataForSEO | Location code for SERP tracking |
-| `DATAFORSEO_LANGUAGE_CODE` | DataForSEO | Language code for SERP tracking |
+| `DATAFORSEO_LOCATION_CODE` | DataForSEO | `2840` (United States) — see DataForSEO docs for other countries |
+| `DATAFORSEO_LANGUAGE_CODE` | DataForSEO | `en` — see DataForSEO docs for other languages |
 | `GOOGLE_ANALYTICS_PROPERTY_ID` | Google Analytics | `properties/123456789` |
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | Google Cloud | Service account JSON (single line) |
 
@@ -113,7 +113,74 @@ Keep your `.env` file open throughout setup - you'll add each credential as you 
 You need these to deploy the dashboard at all:
 
 - **GitHub account** - Host repository and run automated scans
+- **Git** - Copy the repository to your computer and sync changes
 - **Node.js 18+** - Run validation and setup scripts
+
+<details>
+<summary><strong>How to open your terminal (command prompt)</strong></summary>
+
+**What is a terminal?** A terminal (also called "command prompt" or "command line") is a text-based window where you type commands. Think of it like texting with your computer. You'll use it to install software and run setup scripts.
+
+**On Mac:**
+
+1. Press **Command (⌘) + Space** to open Spotlight Search
+2. Type: `Terminal`
+3. Press **Enter**
+4. A white or black window opens — that's your terminal
+
+**On Windows:**
+
+1. Press the **Windows key**
+2. Type: `PowerShell`
+3. Click **Windows PowerShell** (or press Enter)
+4. A blue window opens — that's your terminal
+
+**On Linux:**
+
+- Press **Ctrl + Alt + T** (most distributions)
+
+**How to type a command:** Click in the terminal window, type the command exactly as shown, then press **Enter**. The terminal runs the command and shows the result.
+
+</details>
+
+<details>
+<summary><strong>How to check if you have Git installed</strong></summary>
+
+**What is Git?** Git is a tool that tracks changes to files and lets you download code from GitHub (called "cloning"). It comes pre-installed on Mac, but Windows users often need to install it.
+
+**Check if you have it:**
+
+1. Open your terminal
+2. Run: `git --version`
+
+**✅ You have Git if**: You see something like `git version 2.39.1`
+
+**❌ You don't have Git if**: You see "command not found", "not recognized", or nothing
+
+**If you need to install it:**
+
+**Mac:**
+1. Run: `git --version`
+2. If not installed, Mac will automatically prompt you to install Xcode Command Line Tools
+3. Click **Install** in the popup
+4. Wait for installation to complete (~5 minutes)
+5. Run `git --version` again to verify
+
+**Windows:**
+1. Go to https://git-scm.com/download/win
+2. Click the download link for your Windows version
+3. Run the installer — accept all default options
+4. **Important**: When asked "Adjusting your PATH environment", choose **"Git from the command line and also from 3rd-party software"** (the second option)
+5. Click **Next** through all remaining screens → **Install** → **Finish**
+6. Close and reopen PowerShell
+7. Run `git --version` to verify
+
+**Linux (Ubuntu/Debian):**
+```bash
+sudo apt install git
+```
+
+</details>
 
 <details>
 <summary><strong>How to check if you have Node.js installed</strong></summary>
@@ -133,7 +200,7 @@ You need these to deploy the dashboard at all:
 
 1. Go to [nodejs.org](https://nodejs.org)
 2. Download the **LTS** version (recommended for most users)
-3. Run the installer
+3. Run the installer — accept all default options
 4. Restart your terminal
 5. Run `node --version` again to verify
 
@@ -279,19 +346,19 @@ Create accounts for all required services before configuring anything.
 >
 > This is the #1 cause of setup failures. When you generate this key in Step 3, save it somewhere safe. Copy-paste the exact same value to both locations - do not regenerate or retype it.
 
-#### Step 1: Fork and Clone Repository
+#### Step 1: Fork, Name, and Clone Repository
 
-**Estimated time**: 5 minutes
+**Estimated time**: 10 minutes
 
-**Why needed**: Host your repository and run automated scans via GitHub Actions
+**What this step does**: The dashboard template lives in someone else's GitHub account. "Forking" creates YOUR own private copy that you fully control. You'll name it something that reflects your brand, then download it to your computer so you can configure it.
 
 <details>
 <summary><strong>Don't have a GitHub account? Click here for step-by-step instructions</strong></summary>
 
 A GitHub account is required for:
-- Forking the Lighthouse repository
-- Running GitHub Actions (automated scans)
-- Storing your code
+- Hosting your copy of the dashboard code
+- Running automated daily scans (GitHub Actions)
+- Storing your configuration securely
 
 **Estimated Time**: 5 minutes
 
@@ -300,7 +367,7 @@ A GitHub account is required for:
 1. Go to [github.com/signup](https://github.com/signup)
 
 2. **Enter your email address**:
-   - Use a personal or work email (not Gmail required)
+   - Use a personal or work email
    - Click **Continue**
 
 3. **Create a password**:
@@ -310,60 +377,137 @@ A GitHub account is required for:
 4. **Choose a username**:
    - Must be unique across all of GitHub
    - Can contain letters, numbers, and hyphens
-   - Example: `john-smith-dev`, `yourcompany-lighthouse`
+   - Example: `john-smith`, `acme-corp`, `yourcompany-dev`
+   - This will appear in your repository URL — keep it professional
    - Click **Continue**
 
-5. **Email preferences**:
-   - Choose whether to receive product updates and announcements
-   - Type `y` (yes) or `n` (no)
-   - Click **Continue**
+5. **Email preferences**: Type `n` and click **Continue** (you can change this later)
 
-6. **Verify your account**:
-   - Solve the puzzle/CAPTCHA to prove you're human
-   - Click **Create account**
+6. **Verify your account**: Solve the CAPTCHA puzzle → Click **Create account**
 
 7. **Verify your email**:
-   - Check your email inbox
-   - Find the email from GitHub
-   - Click the verification link or enter the code
+   - Check your inbox for an email from GitHub
+   - Click the verification link
    - You'll be redirected back to GitHub
 
-8. **Personalization questions** (optional):
-   - Skip these by clicking **Skip personalization** at the bottom
-   - Or answer them to get personalized recommendations
+8. **Personalization questions**: Click **Skip personalization** at the bottom
 
-9. **Choose a plan**:
-   - Select **Free** (includes unlimited public/private repos and GitHub Actions)
-   - Click **Continue for free**
+9. **Choose a plan**: Select **Free** → Click **Continue for free**
 
-10. **You now have a GitHub account!**
+10. **You now have a GitHub account!** Sign in and continue below.
 
 </details>
 
-**Fork this repository**:
-1. Go to https://github.com/YOUR-USERNAME/lighthouse-public (this repo)
-2. Click **Fork** button (top right)
-3. This creates your own copy at `github.com/YOUR-USERNAME/lighthouse-public`
+##### Part A: Choose Your Project Name
 
-**Clone to your computer**:
-1. Open terminal/command prompt
-2. Navigate to where you want the project:
+Before you fork, decide on a name for your dashboard. This becomes the folder name on your computer and the URL of your GitHub repository.
+
+**Good examples:**
+- `acme-lighthouse` (company name + tool)
+- `nike-seo-dashboard` (brand + purpose)
+- `my-performance-monitor` (generic)
+- `johns-bakery-lighthouse` (personal brand)
+
+**Rules:** lowercase letters, numbers, and hyphens only. No spaces, no special characters.
+
+Write your chosen name here before continuing: ________________
+
+##### Part B: Fork the Repository
+
+Forking copies the template into your GitHub account under your chosen name.
+
+1. Go to https://github.com/rocklandceo/lighthouse-public
+2. Click the **Fork** button (top right corner of the page)
+3. On the "Create a new fork" page that appears:
+   - **Owner**: select your GitHub username (should already be selected)
+   - **Repository name**: **delete "lighthouse-public" and type your chosen name** (e.g., `acme-lighthouse`)
+   - **Description** (optional): e.g., "Performance monitoring dashboard for acme.com"
+   - Leave "Copy the main branch only" checked
+4. Click **Create fork**
+5. Wait ~10 seconds — GitHub will redirect you to your new fork at `github.com/YOUR-USERNAME/YOUR-CHOSEN-NAME`
+
+**✅ Verify**: You should now be on a page that says `YOUR-USERNAME/YOUR-CHOSEN-NAME` at the top. The URL in your browser should be `https://github.com/YOUR-USERNAME/YOUR-CHOSEN-NAME`.
+
+**❌ If you see "lighthouse-public" in the URL**: You forgot to rename it in step 3. You can rename it now: go to your fork → **Settings** → **Repository name** → change it → click **Rename**.
+
+##### Part C: Install Dependencies on Your Computer
+
+Before cloning, make sure Git and Node.js are installed (see the collapsible guides in the Prerequisites section above).
+
+**Quick check — run both of these in your terminal:**
+```bash
+git --version
+node --version
+```
+
+Both should show version numbers. If either says "command not found", install that tool first (see Prerequisites above).
+
+##### Part D: Clone to Your Computer
+
+Cloning downloads your GitHub repository to your local computer so you can configure and work with it.
+
+1. **Open your terminal** (see "How to open your terminal" in Prerequisites above if needed)
+
+2. **Navigate to where you want to store the project.** A common choice is a `projects` folder in your home directory:
    ```bash
-   cd ~/projects  # or your preferred location
+   # Mac/Linux — create and navigate to a projects folder
+   mkdir -p ~/projects
+   cd ~/projects
+
+   # Windows (PowerShell) — create and navigate to a projects folder
+   mkdir $HOME\projects
+   cd $HOME\projects
    ```
-3. Clone your fork:
+
+3. **Clone your fork** — replace `YOUR-USERNAME` and `YOUR-CHOSEN-NAME` with your actual values:
    ```bash
-   git clone https://github.com/YOUR-USERNAME/lighthouse-public.git
-   cd lighthouse-public
+   git clone https://github.com/YOUR-USERNAME/YOUR-CHOSEN-NAME.git
    ```
+   Example:
+   ```bash
+   git clone https://github.com/johndoe/acme-lighthouse.git
+   ```
+
+4. **Enter the project folder:**
+   ```bash
+   cd YOUR-CHOSEN-NAME
+   ```
+   Example:
+   ```bash
+   cd acme-lighthouse
+   ```
+
+   You are now inside your project folder. All commands from this point forward should be run from inside this folder.
+
+##### Part E: Verify Your GitHub Connection
+
+Run this command to confirm your local copy is connected to YOUR GitHub repository:
+
+```bash
+git remote -v
+```
+
+You should see output like this (with your username and repo name):
+```
+origin  https://github.com/YOUR-USERNAME/YOUR-CHOSEN-NAME.git (fetch)
+origin  https://github.com/YOUR-USERNAME/YOUR-CHOSEN-NAME.git (push)
+```
+
+**What this means**: When you make changes and "push" them, they go to YOUR GitHub repo — not the original template. This is what enables the automated daily scans.
+
+**❌ If the URL shows `rocklandceo/lighthouse-public`**: You cloned the original template instead of your fork. Delete the folder and repeat Part D using your fork's URL from `github.com/YOUR-USERNAME/YOUR-CHOSEN-NAME`.
 
 **Checklist**:
 
-- [ ] Forked repository on GitHub
-- [ ] Cloned to local machine
-- [ ] Opened project in terminal
+- [ ] Chose a project name that reflects your brand
+- [ ] Forked the repository with your chosen name on GitHub
+- [ ] Git and Node.js both show version numbers in terminal
+- [ ] Cloned YOUR fork to your computer (not the original template)
+- [ ] Project folder is named after your chosen name
+- [ ] `git remote -v` shows YOUR GitHub URL
+- [ ] Terminal is open and showing your project folder
 
-✅ **Checkpoint**: Repository forked and cloned locally
+✅ **Checkpoint**: Repository forked with your brand name, downloaded to your computer, and connected to your GitHub
 
 ---
 
@@ -565,7 +709,7 @@ An Anthropic account is required for:
 
 ```bash
 ANTHROPIC_API_KEY=sk-ant-________________________
-AI_MODEL=<required-model-from-.env.example>
+AI_MODEL=claude-3-5-haiku-20241022
 ```
 
 Save the file (Ctrl+S / Cmd+S).
@@ -623,9 +767,11 @@ Save the file (Ctrl+S / Cmd+S).
 ```bash
 DATAFORSEO_LOGIN=your-email@example.com
 DATAFORSEO_PASSWORD=________________________
-DATAFORSEO_LOCATION_CODE=<required-location-code>
-DATAFORSEO_LANGUAGE_CODE=<required-language-code>
+DATAFORSEO_LOCATION_CODE=2840
+DATAFORSEO_LANGUAGE_CODE=en
 ```
+
+**Note**: `2840` is the United States location code and `en` is English. If you're monitoring a site in another country/language, find your code at [DataForSEO location codes](https://docs.dataforseo.com/v3/appendix/dataforseo_labs/locations_and_languages/).
 
 Save the file (Ctrl+S / Cmd+S).
 
@@ -1730,6 +1876,68 @@ Once your dashboard is running, consider these optional improvements:
 
 ---
 
+## Local Development
+
+Run the dashboard locally against your real data without touching the production deployment.
+
+### Step 1: Create `.env.local`
+
+The repo includes a pre-configured template for local development:
+
+```bash
+cp .env.local.example .env.local
+```
+
+`.env.local` is gitignored and will never be committed. Open it and fill in your credentials — it's pre-set for `http://localhost:3000` so OAuth redirects work.
+
+**Key differences from production `.env`:**
+
+| Variable | Production | Local |
+| -------- | ---------- | ----- |
+| `DASHBOARD_URL` | `https://your-project.vercel.app` | `http://localhost:3000` |
+| `NEXTAUTH_URL` | `https://your-project.vercel.app` | `http://localhost:3000` |
+
+Everything else uses the same values as production (same KV database, same API keys).
+
+### Step 2: Add Localhost to OAuth
+
+Add `http://localhost:3000/api/auth/callback/google` to your Google OAuth app's **Authorized redirect URIs**:
+
+1. Go to [Google Cloud Console → Credentials](https://console.cloud.google.com/apis/credentials)
+2. Click your OAuth 2.0 Client ID
+3. Under **Authorized redirect URIs**, click **Add URI**
+4. Add: `http://localhost:3000/api/auth/callback/google`
+5. Click **Save**
+
+### Step 3: Local Brand Assets (Optional)
+
+To test with your real logo/favicon without committing them:
+
+1. Create the local assets directory (gitignored):
+   ```bash
+   mkdir -p public/brand/local
+   ```
+2. Drop your logo and favicon there: `public/brand/local/logo.svg` and `public/brand/local/favicon.svg`
+3. Uncomment these lines in `.env.local`:
+   ```bash
+   NEXT_PUBLIC_BRAND_LOGO_PATH=/brand/local/logo.svg
+   NEXT_PUBLIC_BRAND_FAVICON_PATH=/brand/local/favicon.svg
+   ```
+
+The `public/brand/local/` directory is gitignored — files there are never committed.
+
+### Step 4: Run the Dev Server
+
+```bash
+npm run dev
+```
+
+The dashboard will be available at `http://localhost:3000`. Sign in with Google and you'll see the same data as production (both use the same Vercel KV database).
+
+**Note**: If you prefer to keep local data separate from production, create a second Vercel KV database and use its credentials in `.env.local`.
+
+---
+
 ## Troubleshooting
 
 ### Setup Issues
@@ -1885,8 +2093,8 @@ This is the #1 setup failure - ensure values match exactly.
    - Open browser: `https://yoursite.com/sitemap.xml`
    - Should show XML with URLs listed
 2. If sitemap is at different location:
-   - Edit `scripts/extract-urls.mjs`
-   - Update sitemap path
+   - Set `SITEMAP_URL` in your `.env` and in GitHub Secrets (see [Step 16](#step-16-configure-github-actions))
+   - Example: `SITEMAP_URL=https://yoursite.com/sitemap_index.xml`
 3. If no sitemap exists:
    - **Next.js**: Add [next-sitemap](https://www.npmjs.com/package/next-sitemap) package
    - **WordPress**: Install Yoast SEO or XML Sitemaps plugin
@@ -2222,8 +2430,8 @@ If you encounter issues and want to start fresh, follow these steps to clean up:
 
 ## Getting Help
 
-- **Issues**: https://github.com/YOUR-USERNAME/lighthouse-public/issues
-- **Discussions**: https://github.com/YOUR-USERNAME/lighthouse-public/discussions
+- **Issues**: https://github.com/rocklandceo/lighthouse-public/issues
+- **Discussions**: https://github.com/rocklandceo/lighthouse-public/discussions
 - **Vercel Support**: https://vercel.com/support
 - **Google Cloud Support**: https://console.cloud.google.com/support
 
@@ -2231,7 +2439,7 @@ If you encounter issues and want to start fresh, follow these steps to clean up:
 
 ## Architecture
 
-- **Framework**: Next.js 15 (App Router)
+- **Framework**: Next.js 16 (App Router)
 - **Runtime**: React 19
 - **Language**: TypeScript 5 (strict mode)
 - **Authentication**: NextAuth.js (Google OAuth)

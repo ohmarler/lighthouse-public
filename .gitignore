@@ -69,6 +69,10 @@ docs/clean-room.md
 public/reports/
 public/reports/**
 
+# Local brand asset overrides (real logo/favicon for local testing)
+# Put your actual brand files in public/brand/local/ — they will never be committed
+public/brand/local/
+
 # Lighthouse/Unlighthouse generated artifacts (redundant safety)
 __screenshot-thumbnails__/
 **/lighthouse.html

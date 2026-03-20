@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
     if (!isAIEnabled()) {
       await setGenerating(false);
       return NextResponse.json(
-        { error: 'AI insights not configured. Set ANTHROPIC_API_KEY environment variable.' },
+        { error: 'AI insights configuration error. Verify ANTHROPIC_API_KEY and AI_MODEL are set correctly and redeploy.' },
         { status: 500 }
       );
     }
@@ -414,7 +414,7 @@ Return ONLY valid JSON, no markdown formatting.`;
 
     // Use Haiku model for much faster responses (5-10x faster than Sonnet)
     const message = await anthropic.messages.create({
-      model: 'claude-3-5-haiku-20241022',
+      model: config.ai.model,  // resolved from AI_MODEL environment variable
       max_tokens: 8000, // Increased for comprehensive analysis with more suggestions
       messages: [{ role: 'user', content: prompt }],
     });

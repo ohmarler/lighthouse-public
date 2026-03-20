@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-import fetch from 'node-fetch';
 import { XMLParser } from 'fast-xml-parser';
 import fs from 'fs';
 
