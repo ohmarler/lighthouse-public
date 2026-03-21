@@ -98,17 +98,6 @@ const REQUIRED_ENV_VARS = [
   'CI_UPLOAD_SIGNING_KEY',
 ];
 
-// Optional environment variables (should still be documented in .env.example)
-const OPTIONAL_ENV_VARS = [
-  'ANTHROPIC_API_KEY',
-  'DATAFORSEO_LOGIN',
-  'DATAFORSEO_PASSWORD',
-  'GITHUB_TOKEN',
-  'GITHUB_REPO_OWNER',
-  'GITHUB_REPO_NAME',
-  'VERCEL_DEPLOY_HOOK',
-];
-
 let issues = [];
 let warnings = [];
 let filesScanned = 0;

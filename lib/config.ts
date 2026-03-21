@@ -194,6 +194,17 @@ export function loadConfig(): Config {
   const googleAnalyticsPropertyId = getRequired('GOOGLE_ANALYTICS_PROPERTY_ID', missing);
   const googleServiceAccountJson = getRequired('GOOGLE_SERVICE_ACCOUNT_JSON', missing);
 
+  const VALID_AI_MODEL_PREFIXES = ['claude-'];
+
+  if (aiModel && !VALID_AI_MODEL_PREFIXES.some(prefix => aiModel.startsWith(prefix))) {
+    throw new Error(
+      `CONFIGURATION ERROR: AI_MODEL value "${aiModel}" does not appear to be a valid ` +
+      `Anthropic model identifier. Valid models start with "claude-". ` +
+      `Current recommended value: claude-3-5-haiku-20241022. ` +
+      `See https://docs.anthropic.com/en/docs/about-claude/models for current model names.`
+    );
+  }
+
   // Fail fast if required variables are missing
   if (missing.length > 0) {
     const message = [

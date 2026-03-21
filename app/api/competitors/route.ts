@@ -26,7 +26,7 @@ import {
 import { getConfig, isCompetitorAnalysisEnabled } from '@/lib/config';
 
 export const dynamic = 'force-dynamic';
-export const maxDuration = 120;
+export const maxDuration = 60; // Vercel Hobby plan maximum. Pro plan supports up to 300s.
 
 interface CompetitorAnalysisResponse {
   rankings: {
@@ -65,6 +65,12 @@ interface CompetitorAnalysisResponse {
   errors?: string[]; // Aggregated errors for display
 }
 
+/**
+ * NOTE: This route is constrained to 60 seconds on Vercel Hobby plan.
+ * For large competitor/keyword configurations (10+ competitors, 20+ keywords),
+ * analysis may time out. Reduce tracked competitors/keywords or upgrade to
+ * Vercel Pro (300s limit) if timeouts occur.
+ */
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);

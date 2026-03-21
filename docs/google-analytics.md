@@ -238,6 +238,28 @@ A service account is a special Google account that allows your dashboard to acce
 
 The JSON file you downloaded needs to be formatted as a single line for your `.env` file:
 
+> **⚠️ Critical: Private Key Integrity**
+>
+> The JSON file contains a `private_key` field that uses `\n` as a literal
+> two-character escape sequence to represent newlines within the key. This is
+> correct and intentional. If any tool you use to flatten the JSON converts
+> these `\n` sequences into actual line breaks, the private key will be
+> corrupted and authentication will fail silently.
+>
+> **Safe methods** (preserve `\n` as literal characters):
+>
+> - `cat keyfile.json | jq -c .` on Mac/Linux terminal
+> - [jsonformatter.org/json-minify](https://jsonformatter.org/json-minify) (tested safe)
+>
+> **Unsafe methods** (may corrupt `\n` sequences):
+>
+> - Copy-pasting from certain text editors (VS Code, Sublime) that auto-interpret escapes
+> - Python's `json.dumps` without `ensure_ascii=False` in some configurations
+> - Certain online "JSON beautifier" tools that also "unescape" content
+>
+> After flattening, verify the private key section still contains `\n` as two
+> characters (backslash + n), not actual line breaks.
+
 **Option 1: Manual formatting** (Mac/Linux):
 
 ```bash

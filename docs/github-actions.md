@@ -12,6 +12,12 @@ The included GitHub Actions workflow:
 - Detects score regressions
 - Sends Slack notifications (optional)
 
+> **Note**: The GitHub Actions workflow uses `npm ci` for dependency installation,
+> which requires a `package-lock.json` to be committed to the repository. This file
+> is included in the repository by default. If you encounter an `npm ci` error
+> referencing a missing lockfile, run `npm install` locally and commit the generated
+> `package-lock.json`.
+
 **Prerequisites**: You must have:
 - Deployed your dashboard to Vercel
 - Forked this repository to your GitHub account

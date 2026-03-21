@@ -107,6 +107,12 @@ ANTHROPIC_API_KEY=sk-ant-api03-your-actual-key-here
 AI_MODEL=claude-3-5-haiku-20241022
 ```
 
+> **Model name note**: The value above was current at time of writing. Anthropic
+> periodically deprecates model versions. If you receive a model-not-found error,
+> visit [docs.anthropic.com/en/docs/about-claude/models](https://docs.anthropic.com/en/docs/about-claude/models)
+> to confirm the current identifier for Claude 3.5 Haiku and update the value
+> in your Vercel environment variables.
+
 Replace `sk-ant-api03-your-actual-key-here` with your actual API key.
 
 **Save the file** - you'll upload this to Vercel in Step 14 of the main README.

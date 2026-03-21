@@ -202,3 +202,16 @@ If you discover a security vulnerability, please do NOT open a public issue. Ins
 Feel free to open a discussion or issue if you have questions about contributing.
 
 Thank you for helping improve this project!
+
+## Known Dependency Vulnerabilities
+
+The following vulnerabilities exist in transitive dependencies and cannot currently be resolved without upstream package changes. This table is maintained to provide context for future `npm audit` runs and prevent redundant investigation.
+
+**Last audited**: 2026-03-20
+
+**Command to reproduce**: `npm audit`
+
+| Package | Severity | Advisory | Dependency Chain | Blocked By |
+| ------- | -------- | -------- | ---------------- | ---------- |
+| `@tootallnate/once` <3.0.1 | Low | GHSA-vpq2-c234-7xj6 | `@google-analytics/data` → `google-gax` → `retry-request` → `teeny-request` → `http-proxy-agent` → `@tootallnate/once` | `@google-analytics/data` — fix requires downgrading from v5 to v4, which breaks the GA integration |
+| `fast-xml-parser` 4.0.0-beta.3–5.5.6 (in `sitemapper/node_modules/`) | High | GHSA-jp2q-39xq-3w4g, GHSA-8gc5-j5rx-235r | `@unlighthouse/cli` → `@unlighthouse/core` → `sitemapper` → `fast-xml-parser` | `sitemapper` — must release an update that bumps its bundled `fast-xml-parser` to ≥5.5.7 |

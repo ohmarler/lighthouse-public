@@ -23,6 +23,38 @@ Full-featured performance monitoring with:
 
 ---
 
+## How It Works
+
+Understanding the system architecture helps you complete setup correctly and
+troubleshoot problems if they arise.
+
+```text
+GitHub Repository (your fork)
+        │
+        │  Daily automated scan (GitHub Actions)
+        │  Lighthouse audits your website
+        ▼
+Unlighthouse CI → Scan results
+        │
+        │  Uploads via HMAC-signed API request
+        ▼
+Your Vercel Dashboard (Next.js app)
+        │
+        ├── Vercel KV (stores scan history, AI cache, config)
+        ├── Anthropic API (generates AI insights on demand)
+        ├── DataForSEO API (competitor SERP data on demand)
+        └── Google APIs (Analytics + Search Console data)
+```
+
+**Key points:**
+
+- **GitHub Actions** runs the scans. It needs credentials to upload results to your dashboard.
+- **Vercel** hosts the dashboard and stores data. It needs credentials to serve AI insights and analytics.
+- **The `CI_UPLOAD_SIGNING_KEY`** is a shared secret that allows GitHub Actions to prove to Vercel that scan results are legitimate. It must be identical in both places — this is the most common setup failure point.
+- You do not need to run anything on your own computer after initial setup. GitHub handles scans automatically on a daily schedule.
+
+---
+
 ## Cost Breakdown
 
 **Be informed about costs upfront:**
@@ -103,6 +135,12 @@ During setup, you'll create and add these to your `.env` file:
 | `DATAFORSEO_LANGUAGE_CODE` | DataForSEO | `en` — see DataForSEO docs for other languages |
 | `GOOGLE_ANALYTICS_PROPERTY_ID` | Google Analytics | `properties/123456789` |
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | Google Cloud | Service account JSON (single line) |
+
+> **`AI_MODEL` Note**: The value `claude-3-5-haiku-20241022` is current as of this
+> writing. Anthropic periodically deprecates older model versions. If you receive
+> an error referencing an invalid model, visit
+> [Anthropic's model documentation](https://docs.anthropic.com/en/docs/about-claude/models)
+> to find the current Haiku model identifier and update this variable in Vercel.
 
 Keep your `.env` file open throughout setup - you'll add each credential as you create it.
 
@@ -952,13 +990,25 @@ powershell -ExecutionPolicy Bypass -File scripts/generate-secrets.ps1
 ```
 
 **Output example**:
-```
+
+```text
 1. NEXTAUTH_SECRET
    Value: xyz123abc456...
 
 2. CI_UPLOAD_SIGNING_KEY
    Value: abc123def456...
 ```
+
+**Do this right now, before anything else:**
+
+Copy the `CI_UPLOAD_SIGNING_KEY` value into your `.env` file immediately after
+generation. Your `.env` file is your backup. You will need this exact value again
+in Step 14 (Vercel) and Step 16 (GitHub). If you lose it before completing both
+steps, you must regenerate it and update both locations.
+
+If you close your terminal or lose the value before Step 16, go back to your
+`.env` file — the value is there. Do not regenerate unless you have lost both the
+terminal output and the `.env` file.
 
 **Add to .env immediately**:
 
@@ -1052,18 +1102,62 @@ Triple-check they're identical - even one wrong character breaks everything.
 2. Select your "Lighthouse Dashboard" project
 3. Click **APIs & Services** → **Credentials**
 4. Click **Create Credentials** → **OAuth 2.0 Client ID**
-5. If prompted, configure consent screen:
-   - User Type: **External**
-   - App name: **Lighthouse Dashboard**
-   - User support email: Your email
-   - Developer contact: Your email
-   - Click **Save and Continue** through all screens
-6. Back to Create OAuth Client ID:
+5. If prompted, configure the consent screen — the steps differ by account type:
+
+#### Configuring the OAuth Consent Screen
+
+The configuration differs depending on whether you use Google Workspace (a paid
+Google account tied to your company domain, e.g. `@yourcompany.com`) or a standard
+Gmail account (`@gmail.com`).
+
+---
+
+**If you use Google Workspace (`@yourcompany.com` email):**
+
+1. Select **Internal** as the user type
+2. This restricts sign-in to users within your Google Workspace organization automatically
+3. No individual email allowlisting is needed
+4. Click **Create**
+5. Fill in **App name** (e.g., "Lighthouse Dashboard") and **User support email**
+6. Click **Save and Continue** through remaining screens
+
+Users outside your Workspace domain will not be able to sign in even if they have the URL.
+
+---
+
+**If you use Gmail (standard `@gmail.com` account):**
+
+1. Select **External** as the user type
+2. Click **Create**
+3. Fill in **App name** (e.g., "Lighthouse Dashboard") and **User support email**
+4. Click **Save and Continue** through Scopes (no changes needed)
+5. On the **Test users** screen, click **Add users**
+6. Add the Gmail addresses of everyone who should have access to the dashboard
+   (including yourself)
+7. Click **Save and Continue**, then **Back to Dashboard**
+
+**Important**: Users you add here will see a normal Google sign-in flow. Users
+whose email addresses you do not add will see a warning screen saying the app is
+unverified. The app remains in "Testing" mode indefinitely for a private dashboard —
+you do not need to submit it for Google verification.
+
+You can add or remove test users at any time by returning to:
+Google Cloud Console → APIs & Services → OAuth consent screen → Test users
+
+> **Note**: If you later want to restrict access further, you can also set the
+> `ALLOWED_EMAIL_DOMAIN` environment variable in Vercel to enforce domain-level
+> restrictions in addition to (or instead of) the Google OAuth test user list.
+
+---
+
+Once you have completed the consent screen setup, continue:
+
+1. Back to Create OAuth Client ID:
    - Application type: **Web application**
    - Name: **Lighthouse Dashboard**
    - Authorized redirect URIs: **Leave blank for now** (we'll add after Vercel deployment)
    - Click **Create**
-7. Copy **Client ID** and **Client Secret**
+2. Copy **Client ID** and **Client Secret**
 
 **Add to .env immediately**:
 
@@ -1349,31 +1443,46 @@ After installing, restart your terminal and try again.
 
 ---
 
-### Pre-Deployment Checklist
+## Pre-Deployment Checklist
 
-Before continuing, verify these critical items:
+**Run this before proceeding to Part 3.** The application will refuse to start if
+any required variable is missing — there is no partial functionality mode.
 
-**Required credentials (must have all)**:
+```bash
+npm run setup:validate
+```
 
-- [ ] `TARGET_BASE_URL` - Your website URL
-- [ ] `TARGET_DOMAIN` - Your domain (no https://)
-- [ ] `NEXTAUTH_SECRET` - Generated secret (32+ chars)
-- [ ] `CI_UPLOAD_SIGNING_KEY` - Generated key (64 chars) ← **Save this separately - you'll need it twice**
-- [ ] `GOOGLE_CLIENT_ID` - From Google Cloud
-- [ ] `GOOGLE_CLIENT_SECRET` - From Google Cloud
-- [ ] `ANTHROPIC_API_KEY` - For AI insights
-- [ ] `AI_MODEL` - Anthropic model name
-- [ ] `DATAFORSEO_LOGIN` + `DATAFORSEO_PASSWORD` - Competitor tracking credentials
-- [ ] `DATAFORSEO_LOCATION_CODE` - Location code for SERP tracking
-- [ ] `DATAFORSEO_LANGUAGE_CODE` - Language code for SERP tracking
-- [ ] `GOOGLE_ANALYTICS_PROPERTY_ID` - Format: `properties/123456789`
-- [ ] `GOOGLE_SERVICE_ACCOUNT_JSON` - Full JSON on single line
+This script checks all required variables. **Do not proceed until it reports zero errors.**
 
-**Sitemap note**:
+### Required Variables Reference
 
-- [ ] If your sitemap is not at `/sitemap.xml`, set `SITEMAP_URL` in `.env` and in GitHub Secrets
+| Variable | Source | Notes |
+| -------- | ------ | ----- |
+| `TARGET_BASE_URL` | Your website | Full URL with https:// |
+| `TARGET_DOMAIN` | Your website | Domain only, no https:// |
+| `DASHBOARD_URL` | Vercel (Step 13) | Set after first deployment |
+| `NEXTAUTH_URL` | Same as DASHBOARD_URL | Must match exactly |
+| `NEXTAUTH_SECRET` | Generated (Step 9) | 32+ chars |
+| `CI_UPLOAD_SIGNING_KEY` | Generated (Step 9) | **Must be identical in Vercel AND GitHub** |
+| `GOOGLE_CLIENT_ID` | Google Cloud (Step 10) | |
+| `GOOGLE_CLIENT_SECRET` | Google Cloud (Step 10) | |
+| `KV_REST_API_URL` | Vercel KV (Step 13) | Auto-populated after KV setup |
+| `KV_REST_API_TOKEN` | Vercel KV (Step 13) | Auto-populated after KV setup |
+| `ANTHROPIC_API_KEY` | Anthropic (Step 4) | |
+| `AI_MODEL` | Fixed value | `claude-3-5-haiku-20241022` |
+| `DATAFORSEO_LOGIN` | DataForSEO (Step 5) | Your account email |
+| `DATAFORSEO_PASSWORD` | DataForSEO (Step 5) | API password (not account password) |
+| `DATAFORSEO_LOCATION_CODE` | DataForSEO | `2840` = USA. **Change this if your target audience is not in the US.** See [location codes](https://docs.dataforseo.com/v3/appendix/locations_and_languages/) |
+| `DATAFORSEO_LANGUAGE_CODE` | DataForSEO | `en` = English. Change if needed. |
+| `GOOGLE_ANALYTICS_PROPERTY_ID` | Google Analytics (Step 11) | Format: `properties/123456789` |
+| `GOOGLE_SERVICE_ACCOUNT_JSON` | Google Cloud (Step 11) | Entire JSON on one line — see warning below |
 
-Run `npm run setup:validate` to verify all required variables are set correctly.
+> **⚠️ `GOOGLE_SERVICE_ACCOUNT_JSON` Warning**: This JSON must be flattened to a
+> single line. Do not use a text editor that converts `\n` sequences to real newlines
+> — this will corrupt the private key. Use `cat keyfile.json | jq -c .` (Mac/Linux)
+> or the online minifier at [jsonformatter.org/json-minify](https://jsonformatter.org/json-minify).
+> The value should start with `{"type":"service_account"` and end with `}` on a
+> single line with no line breaks anywhere.
 
 ---
 
@@ -1813,6 +1922,32 @@ Verify everything works end-to-end.
 | No competitors | DataForSEO balance or credentials | Check account balance |
 | No analytics | Service account access | Grant Viewer role in GA |
 
+#### What a Healthy First-Run State Looks Like
+
+After your first scan completes, here is what you should expect to see — some panels
+will appear empty initially and this is normal:
+
+| Dashboard Panel | First-Run State | Action Required |
+| --------------- | --------------- | --------------- |
+| Performance Scores | ✅ Shows scores immediately | None |
+| Performance Trend Chart | Shows single data point | Will populate over multiple scans |
+| AI Analysis Summary | ⚠️ Empty — shows "No insights available" | Click **Refresh** in the AI panel |
+| Search Console | ⚠️ May show "No data yet" | Wait 24-48 hours for Google to process |
+| Competitors Tab | ⚠️ Empty | Click **Edit Configuration**, add competitors and keywords, then click **Run Analysis** |
+| Quick Wins | ⚠️ Empty until AI insights generated | Click **Refresh** in AI panel first |
+
+**The AI Insights panel requires a manual trigger on first use.** After clicking
+Refresh, allow 15-30 seconds for Claude to analyze your scan data. Subsequent loads
+use a 4-hour cache.
+
+**The Competitors tab requires manual configuration.** It does not pre-populate
+with any competitors — you must specify which domains and keywords to track. This
+is intentional: the dashboard cannot guess your competitive landscape.
+
+**Google Analytics data has a processing delay.** Even after setup is complete,
+GA4 takes 24-48 hours to make recent data available via the API. If your analytics
+panel shows zeros immediately after setup, this is expected.
+
 ✅ **Checkpoint**: All features verified working
 
 ---
@@ -1874,67 +2009,21 @@ Once your dashboard is running, consider these optional improvements:
 | **Adjust scan schedule** | Weekly scans instead of daily to reduce costs | [Adjusting Scan Schedule](#adjusting-scan-schedule) |
 | **Add more competitors** | Track additional competitor domains | Dashboard → Competitors → Configure |
 
+> **Note on Competitor Analysis**: Analysis is performed on-demand when you visit
+> the Competitors tab. Requests time out after 60 seconds on Vercel Hobby plan. If
+> you track more than 5-7 competitors or 15+ keywords and experience timeouts,
+> either reduce your tracked items or upgrade to Vercel Pro (supports up to 300s).
+
 ---
 
 ## Local Development
 
-Run the dashboard locally against your real data without touching the production deployment.
+Running the dashboard locally is supported but not required for normal use. The
+standard deployment path (Parts 1-5 above) deploys directly to Vercel without any
+local execution.
 
-### Step 1: Create `.env.local`
-
-The repo includes a pre-configured template for local development:
-
-```bash
-cp .env.local.example .env.local
-```
-
-`.env.local` is gitignored and will never be committed. Open it and fill in your credentials — it's pre-set for `http://localhost:3000` so OAuth redirects work.
-
-**Key differences from production `.env`:**
-
-| Variable | Production | Local |
-| -------- | ---------- | ----- |
-| `DASHBOARD_URL` | `https://your-project.vercel.app` | `http://localhost:3000` |
-| `NEXTAUTH_URL` | `https://your-project.vercel.app` | `http://localhost:3000` |
-
-Everything else uses the same values as production (same KV database, same API keys).
-
-### Step 2: Add Localhost to OAuth
-
-Add `http://localhost:3000/api/auth/callback/google` to your Google OAuth app's **Authorized redirect URIs**:
-
-1. Go to [Google Cloud Console → Credentials](https://console.cloud.google.com/apis/credentials)
-2. Click your OAuth 2.0 Client ID
-3. Under **Authorized redirect URIs**, click **Add URI**
-4. Add: `http://localhost:3000/api/auth/callback/google`
-5. Click **Save**
-
-### Step 3: Local Brand Assets (Optional)
-
-To test with your real logo/favicon without committing them:
-
-1. Create the local assets directory (gitignored):
-   ```bash
-   mkdir -p public/brand/local
-   ```
-2. Drop your logo and favicon there: `public/brand/local/logo.svg` and `public/brand/local/favicon.svg`
-3. Uncomment these lines in `.env.local`:
-   ```bash
-   NEXT_PUBLIC_BRAND_LOGO_PATH=/brand/local/logo.svg
-   NEXT_PUBLIC_BRAND_FAVICON_PATH=/brand/local/favicon.svg
-   ```
-
-The `public/brand/local/` directory is gitignored — files there are never committed.
-
-### Step 4: Run the Dev Server
-
-```bash
-npm run dev
-```
-
-The dashboard will be available at `http://localhost:3000`. Sign in with Google and you'll see the same data as production (both use the same Vercel KV database).
-
-**Note**: If you prefer to keep local data separate from production, create a second Vercel KV database and use its credentials in `.env.local`.
+For developers who need to modify the application code or run it locally:
+**[Local Development Guide →](docs/local-dev.md)**
 
 ---
 

@@ -17,7 +17,13 @@ function getServiceAccountCredentials() {
     json = JSON.parse(config.analytics.serviceAccountJson);
   } catch (e) {
     console.error('Failed to parse GOOGLE_SERVICE_ACCOUNT_JSON:', e);
-    throw new Error('Invalid GOOGLE_SERVICE_ACCOUNT_JSON');
+    throw new Error(
+      'Invalid GOOGLE_SERVICE_ACCOUNT_JSON: The value could not be parsed as JSON. ' +
+      'Common causes: (1) The JSON contains unescaped newlines — use the "minify" step ' +
+      'described in docs/google-analytics.md to flatten it to a single line. ' +
+      '(2) The value was copy-pasted with surrounding quotes added. ' +
+      '(3) The private_key field had its \\n sequences converted to real newlines by a text editor.'
+    );
   }
 
   return {

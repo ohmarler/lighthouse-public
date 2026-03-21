@@ -131,16 +131,52 @@ If this is your first time visiting Google Cloud Console, you may be prompted to
 ## Part 2: Configure OAuth Consent Screen
 
 1. In the left sidebar, navigate to **APIs & Services** → **OAuth consent screen**
-2. Select **External** → Click **Create**
-3. Fill in required fields:
-   - **App name**: Your dashboard name (e.g., "Lighthouse SEO Dashboard")
-   - **User support email**: Your email
-   - **Developer contact email**: Your email
-   - Leave optional fields blank
-4. Click **Save and Continue** through all screens (Scopes, Test Users, Review)
-5. Click **Back to Dashboard**
 
-You should see "Publishing status: Testing" - this is normal for private use.
+The configuration differs depending on whether you use Google Workspace (a paid
+Google account tied to your company domain, e.g. `@yourcompany.com`) or a standard
+Gmail account (`@gmail.com`).
+
+---
+
+**If you use Google Workspace (`@yourcompany.com` email):**
+
+1. Select **Internal** as the user type
+2. This restricts sign-in to users within your Google Workspace organization automatically
+3. No individual email allowlisting is needed
+4. Click **Create**
+5. Fill in **App name** (e.g., "Lighthouse Dashboard") and **User support email**
+6. Click **Save and Continue** through remaining screens
+
+Users outside your Workspace domain will not be able to sign in even if they have the URL.
+
+---
+
+**If you use Gmail (standard `@gmail.com` account):**
+
+1. Select **External** as the user type
+2. Click **Create**
+3. Fill in **App name** (e.g., "Lighthouse Dashboard") and **User support email**
+4. Click **Save and Continue** through Scopes (no changes needed)
+5. On the **Test users** screen, click **Add users**
+6. Add the Gmail addresses of everyone who should have access to the dashboard
+   (including yourself)
+7. Click **Save and Continue**, then **Back to Dashboard**
+
+**Important**: Users you add here will see a normal Google sign-in flow. Users
+whose email addresses you do not add will see a warning screen saying the app is
+unverified. The app remains in "Testing" mode indefinitely for a private dashboard —
+you do not need to submit it for Google verification.
+
+You can add or remove test users at any time by returning to:
+Google Cloud Console → APIs & Services → OAuth consent screen → Test users
+
+> **Note**: If you later want to restrict access further, you can also set the
+> `ALLOWED_EMAIL_DOMAIN` environment variable in Vercel to enforce domain-level
+> restrictions in addition to (or instead of) the Google OAuth test user list.
+
+---
+
+You should see "Publishing status: Testing" — this is normal for private use.
 
 ---
 

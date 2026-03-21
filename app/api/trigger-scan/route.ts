@@ -4,7 +4,9 @@ import { authOptions } from '@/lib/auth';
 import { getConfig, isGitHubTriggerEnabled } from '@/lib/config';
 
 export const dynamic = 'force-dynamic';
-export const maxDuration = 300; // 5 minutes
+export const maxDuration = 60; // Reduced to Hobby plan limit. Pro plan supports 300s.
+// Note: This endpoint triggers a GitHub Actions workflow dispatch which returns
+// immediately — the actual scan runs asynchronously in GitHub, so 60s is sufficient.
 
 export async function POST(_request: NextRequest) {
   try {

@@ -118,7 +118,12 @@ console.log('━━━━━━━━━━━━━━━━━━━━━━�
 
 if (hasErrors) {
   console.log('❌ VALIDATION FAILED');
-  console.log('   Fix the missing required variables before deploying.\n');
+  console.log('');
+  console.log('   All listed variables are REQUIRED. The application will refuse');
+  console.log('   to start if any are missing — there is no partial functionality mode.');
+  console.log('   Every integration (AI, Competitor Analysis, Analytics) must be');
+  console.log('   fully configured before deployment.\n');
+  console.log('   Do not deploy to Vercel until this script passes with zero errors.');
   console.log('📋 Follow the README.md setup guide');
   console.log('');
   process.exit(1);

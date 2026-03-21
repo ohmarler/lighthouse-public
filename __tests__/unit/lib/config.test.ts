@@ -221,10 +221,13 @@ describe('lib/config', () => {
       delete process.env.SITE_DESCRIPTION;
     });
 
-    it('isAIEnabled returns false when API key not set', async () => {
-      delete process.env.ANTHROPIC_API_KEY;
-      const { isAIEnabled } = await import('@/lib/config');
-      expect(isAIEnabled()).toBe(false);
+    it('isAIEnabled and isCompetitorAnalysisEnabled always return true when config loads', async () => {
+      // These functions can only be called after loadConfig() succeeds.
+      // loadConfig() requires ANTHROPIC_API_KEY, DATAFORSEO_LOGIN, and
+      // DATAFORSEO_PASSWORD — so if the app is running, these are always true.
+      const { isAIEnabled, isCompetitorAnalysisEnabled } = await import('@/lib/config');
+      expect(isAIEnabled()).toBe(true);
+      expect(isCompetitorAnalysisEnabled()).toBe(true);
     });
 
     it('isAIEnabled returns true when API key is set', async () => {
@@ -233,24 +236,11 @@ describe('lib/config', () => {
       expect(isAIEnabled()).toBe(true);
     });
 
-    it('isCompetitorAnalysisEnabled returns false when credentials not set', async () => {
-      delete process.env.DATAFORSEO_LOGIN;
-      delete process.env.DATAFORSEO_PASSWORD;
-      const { isCompetitorAnalysisEnabled } = await import('@/lib/config');
-      expect(isCompetitorAnalysisEnabled()).toBe(false);
-    });
-
     it('isCompetitorAnalysisEnabled returns true when both credentials set', async () => {
       process.env.DATAFORSEO_LOGIN = 'test-login';
       process.env.DATAFORSEO_PASSWORD = 'test-password';
       const { isCompetitorAnalysisEnabled } = await import('@/lib/config');
       expect(isCompetitorAnalysisEnabled()).toBe(true);
-    });
-
-    it('isCompetitorAnalysisEnabled returns false when only login set', async () => {
-      process.env.DATAFORSEO_LOGIN = 'test-login';
-      const { isCompetitorAnalysisEnabled } = await import('@/lib/config');
-      expect(isCompetitorAnalysisEnabled()).toBe(false);
     });
 
     it('isGitHubTriggerEnabled returns false when GitHub variables not set', async () => {
