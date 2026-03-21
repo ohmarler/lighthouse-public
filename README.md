@@ -454,7 +454,7 @@ Write your chosen name here before continuing: ________________
 
 Forking copies the template into your GitHub account under your chosen name.
 
-1. Go to https://github.com/rocklandceo/lighthouse-public
+1. Go to https://github.com/ohmarler/lighthouse-public
 2. Click the **Fork** button (top right corner of the page)
 3. On the "Create a new fork" page that appears:
    - **Owner**: select your GitHub username (should already be selected)
@@ -533,7 +533,7 @@ origin  https://github.com/YOUR-USERNAME/YOUR-CHOSEN-NAME.git (push)
 
 **What this means**: When you make changes and "push" them, they go to YOUR GitHub repo — not the original template. This is what enables the automated daily scans.
 
-**❌ If the URL shows `rocklandceo/lighthouse-public`**: You cloned the original template instead of your fork. Delete the folder and repeat Part D using your fork's URL from `github.com/YOUR-USERNAME/YOUR-CHOSEN-NAME`.
+**❌ If the URL shows `ohmarler/lighthouse-public`**: You cloned the original template instead of your fork. Delete the folder and repeat Part D using your fork's URL from `github.com/YOUR-USERNAME/YOUR-CHOSEN-NAME`.
 
 **Checklist**:
 
@@ -2508,7 +2508,7 @@ If you encounter issues and want to start fresh, follow these steps to clean up:
 ### After Cleanup
 
 1. Wait 5 minutes for deletions to propagate
-2. Start fresh from [Part 1](#part-1-create-accounts-steps-1-7-️-30-minutes)
+2. Start fresh from [Part 1](#part-1-create-accounts-steps-1-7--30-minutes)
 3. Use new project names to avoid conflicts
 
 **Tip**: If only one component is broken, you usually don't need to delete everything. Check the Troubleshooting section first.
@@ -2519,8 +2519,8 @@ If you encounter issues and want to start fresh, follow these steps to clean up:
 
 ## Getting Help
 
-- **Issues**: https://github.com/rocklandceo/lighthouse-public/issues
-- **Discussions**: https://github.com/rocklandceo/lighthouse-public/discussions
+- **Issues**: https://github.com/ohmarler/lighthouse-public/issues
+- **Discussions**: https://github.com/ohmarler/lighthouse-public/discussions
 - **Vercel Support**: https://vercel.com/support
 - **Google Cloud Support**: https://console.cloud.google.com/support
 
@@ -2549,4 +2549,4 @@ Apache License 2.0 - See [LICENSE](LICENSE) for details.
 
 ---
 
-**Ready to get started?** Begin with [Part 1: Create Accounts](#part-1-create-accounts-steps-1-7-️-30-minutes) above.
+**Ready to get started?** Begin with [Part 1: Create Accounts](#part-1-create-accounts-steps-1-7--30-minutes) above.
