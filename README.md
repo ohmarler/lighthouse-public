@@ -29,7 +29,7 @@ Understanding the system architecture helps you complete setup correctly and
 troubleshoot problems if they arise.
 
 ```text
-GitHub Repository (your fork)
+GitHub Repository (your copy)
         │
         │  Daily automated scan (GitHub Actions)
         │  Lighthouse audits your website
@@ -103,7 +103,7 @@ Use this path when you want a fresh, zero‑context setup from a clean clone. It
 
 **Clean‑room phases (short checklist):**
 - [ ] Clone + install dependencies → verify local run
-- [ ] Fill `.env` with all required values → run validation
+- [ ] Fill `.env.local` with all required values → run validation
 - [ ] Deploy to Vercel + add KV → set env vars + redeploy
 - [ ] Configure GitHub Actions secrets → run first scan → confirm data
 
@@ -119,7 +119,7 @@ Use this path when you want a fresh, zero‑context setup from a clean clone. It
 
 ### What You'll Configure
 
-During setup, you'll create and add these to your `.env` file:
+During setup, you'll create and add these to your `.env.local` file:
 
 | Credential | From | Format Example |
 |-----------|------|----------------|
@@ -142,7 +142,7 @@ During setup, you'll create and add these to your `.env` file:
 > [Anthropic's model documentation](https://docs.anthropic.com/en/docs/about-claude/models)
 > to find the current Haiku model identifier and update this variable in Vercel.
 
-Keep your `.env` file open throughout setup - you'll add each credential as you create it.
+Keep your `.env.local` file open throughout setup - you'll add each credential as you create it.
 
 ---
 
@@ -384,11 +384,11 @@ Create accounts for all required services before configuring anything.
 >
 > This is the #1 cause of setup failures. When you generate this key in Step 3, save it somewhere safe. Copy-paste the exact same value to both locations - do not regenerate or retype it.
 
-#### Step 1: Fork, Name, and Clone Repository
+#### Step 1: Download, Name, and Set Up Repository
 
 **Estimated time**: 10 minutes
 
-**What this step does**: The dashboard template lives in someone else's GitHub account. "Forking" creates YOUR own private copy that you fully control. You'll name it something that reflects your brand, then download it to your computer so you can configure it.
+**What this step does**: You'll download a clean copy of the dashboard template, rename it to reflect your brand, set it up on your computer, and push it to a new GitHub repository under your own account. This gives you a fully independent project with no connection to the original template.
 
 <details>
 <summary><strong>Don't have a GitHub account? Click here for step-by-step instructions</strong></summary>
@@ -438,7 +438,7 @@ A GitHub account is required for:
 
 ##### Part A: Choose Your Project Name
 
-Before you fork, decide on a name for your dashboard. This becomes the folder name on your computer and the URL of your GitHub repository.
+Before you download, decide on a name for your dashboard. This becomes the folder name on your computer and the URL of your GitHub repository.
 
 **Good examples:**
 - `acme-lighthouse` (company name + tool)
@@ -450,27 +450,22 @@ Before you fork, decide on a name for your dashboard. This becomes the folder na
 
 Write your chosen name here before continuing: ________________
 
-##### Part B: Fork the Repository
+##### Part B: Download the Template
 
-Forking copies the template into your GitHub account under your chosen name.
+Downloading gives you a clean copy of the template that you'll turn into your own independent project.
 
 1. Go to https://github.com/ohmarler/lighthouse-public
-2. Click the **Fork** button (top right corner of the page)
-3. On the "Create a new fork" page that appears:
-   - **Owner**: select your GitHub username (should already be selected)
-   - **Repository name**: **delete "lighthouse-public" and type your chosen name** (e.g., `acme-lighthouse`)
-   - **Description** (optional): e.g., "Performance monitoring dashboard for acme.com"
-   - Leave "Copy the main branch only" checked
-4. Click **Create fork**
-5. Wait ~10 seconds — GitHub will redirect you to your new fork at `github.com/YOUR-USERNAME/YOUR-CHOSEN-NAME`
+2. Click the green **Code** button (near the top right of the page)
+3. Select **Download ZIP**
+4. Save the file when prompted — it will download to your Downloads folder
 
-**✅ Verify**: You should now be on a page that says `YOUR-USERNAME/YOUR-CHOSEN-NAME` at the top. The URL in your browser should be `https://github.com/YOUR-USERNAME/YOUR-CHOSEN-NAME`.
+**✅ Verify**: A file named `lighthouse-public-main.zip` should appear in your Downloads folder.
 
-**❌ If you see "lighthouse-public" in the URL**: You forgot to rename it in step 3. You can rename it now: go to your fork → **Settings** → **Repository name** → change it → click **Rename**.
+> **Why download instead of fork?** Downloading creates a completely independent repository with no connection to the original. You own it entirely, it starts with a clean git history, and there is no upstream relationship to manage.
 
 ##### Part C: Install Dependencies on Your Computer
 
-Before cloning, make sure Git and Node.js are installed (see the collapsible guides in the Prerequisites section above).
+Before setting up your project, make sure Git and Node.js are installed (see the collapsible guides in the Prerequisites section above).
 
 **Quick check — run both of these in your terminal:**
 ```bash
@@ -480,40 +475,80 @@ node --version
 
 Both should show version numbers. If either says "command not found", install that tool first (see Prerequisites above).
 
-##### Part D: Clone to Your Computer
+##### Part D: Extract, Set Up, and Push to GitHub
 
-Cloning downloads your GitHub repository to your local computer so you can configure and work with it.
+1. **Locate the downloaded ZIP** in your Downloads folder. It will be named `lighthouse-public-main.zip`.
 
-1. **Open your terminal** (see "How to open your terminal" in Prerequisites above if needed)
+2. **Extract the ZIP file**:
+   - **Windows**: Right-click `lighthouse-public-main.zip` → **Extract All** → browse to where you want the project (e.g., your Desktop or a `projects` folder) → click **Extract**
+   - **Mac**: Double-click `lighthouse-public-main.zip` — it extracts automatically in the same folder
 
-2. **Navigate to where you want to store the project.** A common choice is a `projects` folder in your home directory:
+3. **Rename the extracted folder** from `lighthouse-public-main` to your chosen name:
+   - **Windows**: Right-click the folder → **Rename** → type your chosen name → press **Enter**
+   - **Mac**: Click once on the folder to select it → press **Return** → type your chosen name → press **Return**
+
+4. **Open your terminal** (see "How to open your terminal" in Prerequisites above if needed) and navigate to the renamed folder:
    ```bash
-   # Mac/Linux — create and navigate to a projects folder
-   mkdir -p ~/projects
-   cd ~/projects
+   # Mac/Linux
+   cd ~/Downloads/YOUR-CHOSEN-NAME
 
-   # Windows (PowerShell) — create and navigate to a projects folder
-   mkdir $HOME\projects
-   cd $HOME\projects
+   # Windows (PowerShell)
+   cd $HOME\Downloads\YOUR-CHOSEN-NAME
    ```
+   > **Tip**: If you moved the folder somewhere else (e.g., `~/projects/`), use that path instead.
 
-3. **Clone your fork** — replace `YOUR-USERNAME` and `YOUR-CHOSEN-NAME` with your actual values:
+5. **Install project dependencies**:
    ```bash
-   git clone https://github.com/YOUR-USERNAME/YOUR-CHOSEN-NAME.git
+   npm install
+   ```
+   This downloads the required packages (~1–2 minutes). You'll see a lot of output — that's normal.
+
+6. **Create a new GitHub repository** for your project:
+   - Go to [github.com/new](https://github.com/new) (you must be signed in)
+   - **Repository name**: type your chosen name exactly (e.g., `acme-lighthouse`)
+   - **Description** (optional): e.g., `Performance monitoring dashboard for acme.com`
+   - Choose **Public** or **Private** — either works
+   - **Important**: Leave "Add a README file", "Add .gitignore", and "Choose a license" all **unchecked**
+   - Click **Create repository**
+   - You'll land on a "Quick setup" page — copy the repository URL shown (format: `https://github.com/YOUR-USERNAME/YOUR-CHOSEN-NAME.git`)
+
+7. **Initialize git and push to your new GitHub repository** — replace `YOUR-USERNAME` and `YOUR-CHOSEN-NAME` with your actual values:
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit"
+   git remote add origin https://github.com/YOUR-USERNAME/YOUR-CHOSEN-NAME.git
+   git branch -M main
+   git push -u origin main
    ```
    Example:
    ```bash
-   git clone https://github.com/johndoe/acme-lighthouse.git
+   git init
+   git add .
+   git commit -m "Initial commit"
+   git remote add origin https://github.com/johndoe/acme-lighthouse.git
+   git branch -M main
+   git push -u origin main
    ```
 
-4. **Enter the project folder:**
-   ```bash
-   cd YOUR-CHOSEN-NAME
-   ```
-   Example:
-   ```bash
-   cd acme-lighthouse
-   ```
+   GitHub may prompt for credentials. If asked for a password, use a **Personal Access Token** (not your GitHub account password):
+
+<details>
+<summary><strong>GitHub asks for a password — click here</strong></summary>
+
+GitHub no longer accepts account passwords for command-line git operations. You need a Personal Access Token (PAT).
+
+1. Go to [github.com/settings/tokens/new](https://github.com/settings/tokens/new)
+2. **Note**: type a name like `Lighthouse Dashboard`
+3. **Expiration**: choose **No expiration** (or set a date far in the future)
+4. **Scopes**: check the top **repo** checkbox
+5. Click **Generate token**
+6. **Copy the token immediately** — GitHub will not show it again
+7. When Git asks for `Password:`, paste your token
+
+</details>
+
+   **✅ Verify**: Go to `https://github.com/YOUR-USERNAME/YOUR-CHOSEN-NAME` in your browser — you should see all the project files listed.
 
    You are now inside your project folder. All commands from this point forward should be run from inside this folder.
 
@@ -531,68 +566,70 @@ origin  https://github.com/YOUR-USERNAME/YOUR-CHOSEN-NAME.git (fetch)
 origin  https://github.com/YOUR-USERNAME/YOUR-CHOSEN-NAME.git (push)
 ```
 
-**What this means**: When you make changes and "push" them, they go to YOUR GitHub repo — not the original template. This is what enables the automated daily scans.
+**What this means**: When the GitHub Actions workflow runs, it uses your repository. This is what enables the automated daily scans.
 
-**❌ If the URL shows `ohmarler/lighthouse-public`**: You cloned the original template instead of your fork. Delete the folder and repeat Part D using your fork's URL from `github.com/YOUR-USERNAME/YOUR-CHOSEN-NAME`.
+**❌ If you see no output or an error**: You haven't run `git init` and `git remote add origin` yet. Go back to Part D step 7.
 
 **Checklist**:
 
 - [ ] Chose a project name that reflects your brand
-- [ ] Forked the repository with your chosen name on GitHub
+- [ ] Downloaded the ZIP from GitHub
+- [ ] Extracted and renamed the folder to your chosen name
 - [ ] Git and Node.js both show version numbers in terminal
-- [ ] Cloned YOUR fork to your computer (not the original template)
-- [ ] Project folder is named after your chosen name
+- [ ] Installed dependencies with `npm install`
+- [ ] Created a new GitHub repository with your chosen name
+- [ ] Pushed the code to your GitHub repository
 - [ ] `git remote -v` shows YOUR GitHub URL
-- [ ] Terminal is open and showing your project folder
+- [ ] Terminal is open inside your project folder
 
-✅ **Checkpoint**: Repository forked with your brand name, downloaded to your computer, and connected to your GitHub
+✅ **Checkpoint**: Repository set up with your brand name, pushed to your own GitHub account, and connected locally
 
 ---
 
-#### Step 2: Create Your .env File
+#### Step 2: Create Your .env.local File
 
 **Estimated time**: 2 minutes
 
-**Why now?** You'll be generating credentials in the next steps. Having your `.env` file ready means you can add each credential immediately after generating it.
+**Why now?** You'll be generating credentials in the next steps. Having your `.env.local` file ready means you can add each credential immediately after generating it.
 
 **Actions**:
 
 1. Make sure you're in the project directory:
    ```bash
-   cd lighthouse-public
+   cd YOUR-CHOSEN-NAME
    ```
 
 2. Copy the example file:
    ```bash
-   cp .env.example .env
+   cp .env.example .env.local
    ```
 
-3. Open `.env` in your code editor (keep it open throughout setup):
+3. Open `.env.local` in your code editor (keep it open throughout setup):
    ```bash
    # Mac
-   open .env
+   open -a TextEdit .env.local
 
    # Or use your preferred editor:
-   code .env      # VSCode
-   nano .env      # Terminal editor
-   vim .env       # Vim
+   code .env.local      # VSCode
+   nano .env.local      # Terminal editor
+   vim .env.local       # Vim
    ```
 
-4. **Verify** `.env` is gitignored:
+4. **Verify** `.env.local` is gitignored:
    ```bash
-   cat .gitignore | grep "\.env$"
+   cat .gitignore | grep "env"
    ```
-   You should see: `.env`
+   You should see entries including `.env` and `.env*.local` — both cover your `.env.local` file.
 
-**⚠️ Security**: Never commit your `.env` file. It contains secrets and is automatically excluded by `.gitignore`.
+**⚠️ Security**: Never commit your `.env.local` file. It contains secrets and is automatically excluded by `.gitignore`.
 
 **Checklist**:
 
-- [ ] Copied `.env.example` to `.env`
-- [ ] Opened `.env` file in code editor
-- [ ] Verified `.env` is in `.gitignore`
+- [ ] Copied `.env.example` to `.env.local`
+- [ ] Opened `.env.local` file in code editor
+- [ ] Verified `.env.local` is in `.gitignore`
 
-✅ **Checkpoint**: `.env` file created and open in editor
+✅ **Checkpoint**: `.env.local` file created and open in editor
 
 ---
 
@@ -643,7 +680,7 @@ origin  https://github.com/YOUR-USERNAME/YOUR-CHOSEN-NAME.git (push)
 >
 > API keys are often shown only once. If you close the window without saving, you'll need to regenerate the key.
 >
-> **Action**: Have your `.env` file open. Add each key immediately after generating it.
+> **Action**: Have your `.env.local` file open. Add each key immediately after generating it.
 
 ---
 
@@ -718,7 +755,7 @@ An Anthropic account is required for:
    - Name: `Lighthouse Dashboard` (descriptive name)
    - Click **Create Key**
    - **Copy the key immediately** - you won't see it again
-   - Save it to a text file (you'll add it to `.env` file later)
+   - Save it to a text file (you'll add it to `.env.local` later)
 
 8. **You now have an Anthropic account with API access!**
 
@@ -743,7 +780,7 @@ An Anthropic account is required for:
 2. Add credit/debit card
 3. No charges until you use the API
 
-**Add to .env immediately**:
+**Add to .env.local immediately**:
 
 ```bash
 ANTHROPIC_API_KEY=sk-ant-________________________
@@ -758,10 +795,10 @@ Save the file (Ctrl+S / Cmd+S).
 - [ ] Verified email address
 - [ ] Added payment method
 - [ ] Created API key named "Lighthouse Dashboard"
-- [ ] Copied API key to `.env` file
-- [ ] Saved `.env` file
+- [ ] Copied API key to `.env.local`
+- [ ] Saved `.env.local`
 
-✅ **Checkpoint**: Anthropic API key obtained and added to .env
+✅ **Checkpoint**: Anthropic API key obtained and added to .env.local
 
 ---
 
@@ -800,7 +837,7 @@ Save the file (Ctrl+S / Cmd+S).
    - Copy your **Login** (username)
    - Copy your **Password** (API password)
 
-**Add to .env immediately**:
+**Add to .env.local immediately**:
 
 ```bash
 DATAFORSEO_LOGIN=your-email@example.com
@@ -821,11 +858,11 @@ Save the file (Ctrl+S / Cmd+S).
 - [ ] Verified email address
 - [ ] Added $50 credit to account
 - [ ] Found API credentials in Dashboard → API Access
-- [ ] Copied API Login to `.env` file
-- [ ] Copied API Password to `.env` file
-- [ ] Saved `.env` file
+- [ ] Copied API Login to `.env.local`
+- [ ] Copied API Password to `.env.local`
+- [ ] Saved `.env.local`
 
-✅ **Checkpoint**: DataForSEO account created and credentials added to .env
+✅ **Checkpoint**: DataForSEO account created and credentials added to .env.local
 
 ---
 
@@ -945,9 +982,9 @@ Now configure the services you created.
 
 #### Step 8: Configure Target Site
 
-Add your website's information to `.env`.
+Add your website's information to `.env.local`.
 
-**Open your `.env` file** (you created this in Step 2) and add:
+**Open your `.env.local` file** (you created this in Step 2) and add:
 
 ```bash
 # Target Site
@@ -962,12 +999,12 @@ Save the file (Ctrl+S / Cmd+S).
 
 **Checklist**:
 
-- [ ] Added `TARGET_BASE_URL` to `.env`
-- [ ] Added `TARGET_DOMAIN` to `.env`
-- [ ] Added `SITEMAP_URL` to `.env` (required if your sitemap is not at `/sitemap.xml`)
-- [ ] Saved `.env` file
+- [ ] Added `TARGET_BASE_URL` to `.env.local`
+- [ ] Added `TARGET_DOMAIN` to `.env.local`
+- [ ] Added `SITEMAP_URL` to `.env.local` (required if your sitemap is not at `/sitemap.xml`)
+- [ ] Saved `.env.local`
 
-✅ **Checkpoint**: Target site configured in .env
+✅ **Checkpoint**: Target site configured in .env.local
 
 ---
 
@@ -1001,16 +1038,16 @@ powershell -ExecutionPolicy Bypass -File scripts/generate-secrets.ps1
 
 **Do this right now, before anything else:**
 
-Copy the `CI_UPLOAD_SIGNING_KEY` value into your `.env` file immediately after
-generation. Your `.env` file is your backup. You will need this exact value again
+Copy the `CI_UPLOAD_SIGNING_KEY` value into your `.env.local` file immediately after
+generation. Your `.env.local` file is your backup. You will need this exact value again
 in Step 14 (Vercel) and Step 16 (GitHub). If you lose it before completing both
 steps, you must regenerate it and update both locations.
 
 If you close your terminal or lose the value before Step 16, go back to your
-`.env` file — the value is there. Do not regenerate unless you have lost both the
-terminal output and the `.env` file.
+`.env.local` file — the value is there. Do not regenerate unless you have lost both the
+terminal output and the `.env.local` file.
 
-**Add to .env immediately**:
+**Add to .env.local immediately**:
 
 ```bash
 NEXTAUTH_SECRET=<paste from output above>
@@ -1060,14 +1097,14 @@ Triple-check they're identical - even one wrong character breaks everything.
 **Checklist**:
 
 - [ ] Ran secrets generation script
-- [ ] Added `NEXTAUTH_SECRET` to `.env`
-- [ ] Added `CI_UPLOAD_SIGNING_KEY` to `.env`
+- [ ] Added `NEXTAUTH_SECRET` to `.env.local`
+- [ ] Added `CI_UPLOAD_SIGNING_KEY` to `.env.local`
 - [ ] Saved `CI_UPLOAD_SIGNING_KEY` to temporary notepad
-- [ ] Saved `.env` file
+- [ ] Saved `.env.local`
 
 **✅ Verify Success**:
 
-1. Open your `.env` file
+1. Open your `.env.local` file
 2. You should see both secrets with values (not empty):
 
    ```text
@@ -1084,7 +1121,7 @@ Triple-check they're identical - even one wrong character breaks everything.
 - **Values are empty**: Re-run the script and copy the output immediately
 - **Script not found**: Verify the `scripts/` folder exists with `generate-secrets.sh` inside
 
-✅ **Checkpoint**: Secrets generated and added to .env
+✅ **Checkpoint**: Secrets generated and added to .env.local
 
 ---
 
@@ -1159,7 +1196,7 @@ Once you have completed the consent screen setup, continue:
    - Click **Create**
 2. Copy **Client ID** and **Client Secret**
 
-**Add to .env immediately**:
+**Add to .env.local immediately**:
 
 ```bash
 GOOGLE_CLIENT_ID=____________.apps.googleusercontent.com
@@ -1181,9 +1218,9 @@ You'll come back to update the OAuth redirect URI in Step 15 (after Vercel deplo
 
 - [ ] Configured OAuth consent screen
 - [ ] Created OAuth 2.0 Client ID
-- [ ] Copied `GOOGLE_CLIENT_ID` to `.env`
-- [ ] Copied `GOOGLE_CLIENT_SECRET` to `.env`
-- [ ] Saved `.env` file
+- [ ] Copied `GOOGLE_CLIENT_ID` to `.env.local`
+- [ ] Copied `GOOGLE_CLIENT_SECRET` to `.env.local`
+- [ ] Saved `.env.local`
 - [ ] Left redirect URIs blank (will add later in Step 15)
 
 **✅ Verify Success**:
@@ -1202,7 +1239,7 @@ You'll come back to update the OAuth redirect URI in Step 15 (after Vercel deplo
 - If you don't see the credentials, try refreshing the page
 - If Client Secret is not visible, you can click "Show" to reveal it
 
-✅ **Checkpoint**: OAuth credentials created and added to .env
+✅ **Checkpoint**: OAuth credentials created and added to .env.local
 
 ---
 
@@ -1247,7 +1284,7 @@ You'll come back to update the OAuth redirect URI in Step 15 (after Vercel deplo
    - Role: **Viewer**
    - Click **Add**
 
-**Add to .env immediately**:
+**Add to .env.local immediately**:
 
 ```bash
 GOOGLE_ANALYTICS_PROPERTY_ID=properties/123456789
@@ -1265,17 +1302,17 @@ Save the file (Ctrl+S / Cmd+S).
 - [ ] Created service account
 - [ ] Generated JSON key file
 - [ ] Granted service account access to Analytics property
-- [ ] Added `GOOGLE_ANALYTICS_PROPERTY_ID` to `.env`
-- [ ] Added `GOOGLE_SERVICE_ACCOUNT_JSON` to `.env`
-- [ ] Saved `.env` file
+- [ ] Added `GOOGLE_ANALYTICS_PROPERTY_ID` to `.env.local`
+- [ ] Added `GOOGLE_SERVICE_ACCOUNT_JSON` to `.env.local`
+- [ ] Saved `.env.local`
 
-✅ **Checkpoint**: Analytics API configured and credentials added to .env
+✅ **Checkpoint**: Analytics API configured and credentials added to .env.local
 
 ---
 
 #### Step 12: Validate Your Configuration
 
-**You've created your `.env` file in Step 2** and added credentials in Steps 4-11. Now validate that all required variables are set correctly.
+**You've created your `.env.local` file in Step 2** and added credentials in Steps 4-11. Now validate that all required variables are set correctly.
 
 **Run the validation script**:
 
@@ -1299,7 +1336,7 @@ npm run setup:validate
 - Review error messages carefully
 - Go back to the relevant step and check the variable
 - Ensure no extra spaces or quotes around values
-- Make sure you saved the `.env` file
+- Make sure you saved the `.env.local` file
 - Re-run validation
 
 **Checklist**:
@@ -1329,7 +1366,7 @@ All required variables validated successfully!
 **❌ If you see errors**:
 
 1. Read the error message carefully - it will tell you which variable is missing or invalid
-2. Open your `.env` file
+2. Open your `.env.local` file
 3. Find the variable mentioned in the error
 4. Check for:
    - Missing value (empty line)
@@ -1388,10 +1425,10 @@ If you closed the window after creating the key:
 2. You'll see your key name but the key value is hidden
 3. You must create a NEW key (click "Create Key")
 4. Copy the new key immediately
-5. Update `.env` file with new key
+5. Update `.env.local` with new key
 6. Old key is automatically invalidated
 
-**Prevention**: Always copy API keys immediately and save them in your `.env` file or a secure password manager.
+**Prevention**: Always copy API keys immediately and save them in your `.env.local` file or a secure password manager.
 
 #### Account Verification Email Not Arriving
 
@@ -1419,17 +1456,17 @@ If you closed the window after creating the key:
 
 After installing, restart your terminal and try again.
 
-#### `.env` File Not Found or Variables Not Loading
+#### `.env.local` File Not Found or Variables Not Loading
 
 **Problem**: Validation script says variables are missing.
 
 **Solution**:
 
-1. Verify file is named exactly `.env` (not `.env.txt` or `env`)
+1. Verify file is named exactly `.env.local` (not `.env.local.txt` or `env.local`)
 2. Confirm file is in project root directory (`lighthouse-public/`)
 3. Run `ls -la` (Mac/Linux) or `dir /a` (Windows) to see hidden files
 4. If using Windows Notepad, save as "All Files" type, not "Text Documents"
-5. Make sure you ran `cp .env.example .env` in the correct directory
+5. Make sure you ran `cp .env.example .env.local` in the correct directory
 
 ---
 
@@ -1500,7 +1537,7 @@ This step has three parts that must happen in order:
 
 1. Go to https://vercel.com/new
 2. Click **Import Git Repository**
-3. Find your forked repository: `YOUR-USERNAME/lighthouse-public`
+3. Find your repository: `YOUR-USERNAME/YOUR-CHOSEN-NAME`
 4. Click **Import**
 5. Configure project:
    - Framework Preset: **Next.js** (auto-detected)
@@ -1511,7 +1548,7 @@ This step has three parts that must happen in order:
 8. **Deployment will fail** - this is expected (environment variables not set yet)
 9. Copy your Vercel URL: `https://your-project-abc123.vercel.app`
 
-**Update your .env file**:
+**Update your `.env.local` file**:
 ```bash
 DASHBOARD_URL=https://your-project-abc123.vercel.app
 NEXTAUTH_URL=https://your-project-abc123.vercel.app
@@ -1546,7 +1583,7 @@ After KV is linked:
 - [ ] Imported repository to Vercel
 - [ ] Started initial deployment
 - [ ] Copied Vercel URL
-- [ ] Updated `DASHBOARD_URL` and `NEXTAUTH_URL` in `.env`
+- [ ] Updated `DASHBOARD_URL` and `NEXTAUTH_URL` in `.env.local`
 - [ ] Created KV database
 - [ ] Linked KV to project
 - [ ] Verified KV environment variables added
@@ -1576,33 +1613,33 @@ After KV is linked:
 
 Add **all** your environment variables to Vercel.
 
-**Variables to add** (from your .env file):
+**Variables to add** (from your .env.local file):
 
 1. Go to **Settings** → **Environment Variables**
 2. For each variable below, click **Add New**:
 
 | Variable | Value | Notes |
 |----------|-------|-------|
-| `TARGET_BASE_URL` | From .env | Your website |
-| `TARGET_DOMAIN` | From .env | Your domain |
-| `DASHBOARD_URL` | From .env | Your Vercel URL |
-| `NEXTAUTH_URL` | From .env | Same as DASHBOARD_URL |
-| `NEXTAUTH_SECRET` | From .env | Generated secret |
-| `CI_UPLOAD_SIGNING_KEY` | From .env | ⚠️ Must match GitHub exactly |
-| `GOOGLE_CLIENT_ID` | From .env | OAuth credentials |
-| `GOOGLE_CLIENT_SECRET` | From .env | OAuth credentials |
-| `GOOGLE_ANALYTICS_PROPERTY_ID` | From .env | Analytics property |
-| `GOOGLE_SERVICE_ACCOUNT_JSON` | From .env | Full JSON object |
-| `ANTHROPIC_API_KEY` | From .env | AI insights |
-| `AI_MODEL` | From .env | Anthropic model name |
-| `DATAFORSEO_LOGIN` | From .env | Competitor analysis |
-| `DATAFORSEO_PASSWORD` | From .env | Competitor analysis |
-| `DATAFORSEO_LOCATION_CODE` | From .env | Competitor analysis location |
-| `DATAFORSEO_LANGUAGE_CODE` | From .env | Competitor analysis language |
+| `TARGET_BASE_URL` | From .env.local | Your website |
+| `TARGET_DOMAIN` | From .env.local | Your domain |
+| `DASHBOARD_URL` | From .env.local | Your Vercel URL |
+| `NEXTAUTH_URL` | From .env.local | Same as DASHBOARD_URL |
+| `NEXTAUTH_SECRET` | From .env.local | Generated secret |
+| `CI_UPLOAD_SIGNING_KEY` | From .env.local | ⚠️ Must match GitHub exactly |
+| `GOOGLE_CLIENT_ID` | From .env.local | OAuth credentials |
+| `GOOGLE_CLIENT_SECRET` | From .env.local | OAuth credentials |
+| `GOOGLE_ANALYTICS_PROPERTY_ID` | From .env.local | Analytics property |
+| `GOOGLE_SERVICE_ACCOUNT_JSON` | From .env.local | Full JSON object |
+| `ANTHROPIC_API_KEY` | From .env.local | AI insights |
+| `AI_MODEL` | From .env.local | Anthropic model name |
+| `DATAFORSEO_LOGIN` | From .env.local | Competitor analysis |
+| `DATAFORSEO_PASSWORD` | From .env.local | Competitor analysis |
+| `DATAFORSEO_LOCATION_CODE` | From .env.local | Competitor analysis location |
+| `DATAFORSEO_LANGUAGE_CODE` | From .env.local | Competitor analysis language |
 
 3. For each variable:
    - Name: Exact variable name
-   - Value: Paste from .env
+   - Value: Paste from `.env.local`
    - Environment: **All** (Production, Preview, Development)
    - Click **Save**
 
@@ -1614,7 +1651,7 @@ Add **all** your environment variables to Vercel.
 
 > **⚠️ CRITICAL: Copy from Vercel, Not Your Notes**
 >
-> When adding `CI_UPLOAD_SIGNING_KEY` to GitHub (Step 16), copy it directly from Vercel Environment Variables - not from your notes or `.env` file. This ensures exact character-by-character match.
+> When adding `CI_UPLOAD_SIGNING_KEY` to GitHub (Step 16), copy it directly from Vercel Environment Variables - not from your notes or `.env.local` file. This ensures exact character-by-character match.
 
 **After adding all variables**:
 1. Go to **Deployments** tab
@@ -1626,7 +1663,7 @@ Add **all** your environment variables to Vercel.
 
 - [ ] Added all required environment variables to Vercel
 - [ ] Added optional variables (if using those features)
-- [ ] Verified all values match `.env` file
+- [ ] Verified all values match `.env.local`
 - [ ] Confirmed `CI_UPLOAD_SIGNING_KEY` matches exactly
 - [ ] Triggered redeploy
 - [ ] Deployment succeeded (green checkmark)
@@ -2182,7 +2219,7 @@ This is the #1 setup failure - ensure values match exactly.
    - Open browser: `https://yoursite.com/sitemap.xml`
    - Should show XML with URLs listed
 2. If sitemap is at different location:
-   - Set `SITEMAP_URL` in your `.env` and in GitHub Secrets (see [Step 16](#step-16-configure-github-actions))
+   - Set `SITEMAP_URL` in your `.env.local` and in GitHub Secrets (see [Step 16](#step-16-configure-github-actions))
    - Example: `SITEMAP_URL=https://yoursite.com/sitemap_index.xml`
 3. If no sitemap exists:
    - **Next.js**: Add [next-sitemap](https://www.npmjs.com/package/next-sitemap) package
@@ -2196,7 +2233,7 @@ This is the #1 setup failure - ensure values match exactly.
 
 **Symptoms**: Workflow never triggers or shows "Disabled"
 
-**Cause**: Workflows disabled or not enabled on fork
+**Cause**: Workflows disabled or not yet enabled
 
 **Fix**:
 
@@ -2212,7 +2249,7 @@ This is the #1 setup failure - ensure values match exactly.
    - Click green **Run workflow** button
 5. Check workflow file exists:
    - `.github/workflows/unlighthouse.yml` should be present
-   - If missing, you may need to re-fork the repository
+   - If missing, ensure `.github/workflows/unlighthouse.yml` exists in your repository (check on GitHub)
 
 ---
 
@@ -2437,7 +2474,7 @@ The [GitHub Actions guide](docs/github-actions.md) also covers:
 | **CNAME** | Canonical Name - a DNS record type that points your subdomain to another domain (like Vercel's servers). |
 | **DNS** | Domain Name System - the internet's phone book that translates domain names (like example.com) to IP addresses. |
 | **Environment Variable** | A setting stored outside your code (like API keys). Keeps secrets secure and lets you change settings without modifying code. |
-| **Fork** | A copy of a GitHub repository under your own account. You can modify a fork without affecting the original. |
+| **Fork** | A linked copy of a GitHub repository under your own account. Unlike a download, a fork maintains a connection to the original repository. This dashboard uses a clean download instead of a fork. |
 | **GitHub Actions** | GitHub's automation system. Runs workflows (like daily scans) automatically based on schedules or events. |
 | **HMAC** | Hash-based Message Authentication Code - a security method that verifies requests are authentic using a shared secret key. |
 | **JWT** | JSON Web Token - a secure way to represent user identity. Used for keeping you logged in to the dashboard. |
@@ -2477,9 +2514,9 @@ If you encounter issues and want to start fresh, follow these steps to clean up:
 5. Type the project name to confirm
 6. Click **Delete**
 
-### Delete GitHub Fork
+### Delete GitHub Repository
 
-1. Go to your forked repository on GitHub
+1. Go to your repository on GitHub
 2. Click **Settings** (repository settings, not account)
 3. Scroll to bottom → **Danger Zone**
 4. Click **Delete this repository**
