@@ -7,9 +7,9 @@
 **Purpose**: This guide provides detailed walkthrough for Google Analytics 4 and Search Console setup, including account creation. The README has a quick summary - this guide has the full details.
 
 **Prerequisites**:
-- ✅ You've completed Steps 1-2 of the README (forked repo, created .env file)
-- ✅ Your `.env` file is open in your editor
-- ✅ You've completed Step 9 (Google OAuth) - same Google account needed
+- ✅ You've completed Steps 1-2 of the README (downloaded the ZIP and set up your GitHub repository, created .env.local file)
+- ✅ Your `.env.local` file is open in your editor
+- ✅ You've completed Step 10 (Google OAuth) - same Google account needed
 
 **After completing this guide**: Return to the README and continue with Step 11.
 
@@ -87,7 +87,7 @@ Skip to [Part 2: Set Up Google Search Console](#part-2-set-up-google-search-cons
 
 1. After creating the stream, you'll see the **Web stream details** page
 2. Look for **Property ID** near the top of the page (format: `properties/123456789`)
-3. **Copy this Property ID** - you'll need it for your `.env` file
+3. **Copy this Property ID** - you'll need it for your `.env.local` file
 4. Example: `properties/123456789`
 
 **Note**: Don't confuse Property ID with Measurement ID:
@@ -236,7 +236,7 @@ A service account is a special Google account that allows your dashboard to acce
 
 ### Prepare JSON for Environment Variable
 
-The JSON file you downloaded needs to be formatted as a single line for your `.env` file:
+The JSON file you downloaded needs to be formatted as a single line for your `.env.local` file:
 
 > **⚠️ Critical: Private Key Integrity**
 >
@@ -275,7 +275,7 @@ This copies the minified JSON to your clipboard.
 3. Copy all contents and paste into the left panel
 4. Click **Minify** button
 5. Copy the result from the right panel
-6. Paste into your `.env` file
+6. Paste into your `.env.local` file
 
 **Option 3: Manual formatting** (any OS):
 
@@ -284,7 +284,7 @@ This copies the minified JSON to your clipboard.
 3. Remove all newlines and extra spaces (make it one line)
 4. The format should look like: `{"type":"service_account","project_id":"...","private_key":"...","client_email":"..."}`
 
-**Add to your `.env` file**:
+**Add to your `.env.local` file**:
 
 ```bash
 GOOGLE_SERVICE_ACCOUNT_JSON={"type":"service_account","project_id":"your-project-id","private_key":"-----BEGIN PRIVATE KEY-----\nYourPrivateKeyHere\n-----END PRIVATE KEY-----\n","client_email":"your-service-account@your-project.iam.gserviceaccount.com","client_id":"123456789","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_x509_cert_url":"https://www.googleapis.com/robot/v1/metadata/x509/your-service-account%40your-project.iam.gserviceaccount.com"}
@@ -367,7 +367,7 @@ Your Google Cloud project needs to have the Analytics and Search Console APIs en
 
 ## Part 7: Add to Environment Variables
 
-Now add your Google Analytics Property ID and Service Account JSON to your `.env` file:
+Now add your Google Analytics Property ID and Service Account JSON to your `.env.local` file:
 
 ```bash
 # Google Analytics 4 Property ID (format: properties/123456789)
@@ -377,13 +377,13 @@ GOOGLE_ANALYTICS_PROPERTY_ID=properties/123456789
 GOOGLE_SERVICE_ACCOUNT_JSON={"type":"service_account","project_id":"...","private_key":"...","client_email":"..."}
 ```
 
-**Save the file** - you'll upload these to Vercel in Step 10 of the main README.
+**Save the file** - you'll upload these to Vercel in Step 14 of the main README.
 
 ---
 
 ## Part 8: Verify Setup
 
-After deploying to Vercel (Step 11 in main README), verify your Analytics and Search Console integration is working:
+After deploying to Vercel (Step 13 in main README), verify your Analytics and Search Console integration is working:
 
 1. Visit your dashboard
 2. Sign in with Google
@@ -464,9 +464,9 @@ After deploying to Vercel (Step 11 in main README), verify your Analytics and Se
 
 1. Go to [Google Analytics](https://analytics.google.com/)
 2. Click **Admin** → **Property Settings**
-3. Verify **Property ID** matches your `.env` file
+3. Verify **Property ID** matches your `.env.local` file
 4. Format must be `properties/123456789` (not just the number)
-5. Update `.env` file if incorrect
+5. Update `.env.local` file if incorrect
 6. Redeploy to Vercel
 
 ### Search Console Shows "Property Not Verified"
@@ -978,8 +978,8 @@ LIMIT 20
 
 After completing this setup:
 
-1. ✅ Verify GA4 Property ID is in your `.env` file
-2. ✅ Verify Service Account JSON is in your `.env` file (one line)
+1. ✅ Verify GA4 Property ID is in your `.env.local` file
+2. ✅ Verify Service Account JSON is in your `.env.local` file (one line)
 3. ✅ Verify service account has access to GA4 property
 4. ✅ Verify service account has access to Search Console property
 5. ✅ Verify both APIs are enabled in Google Cloud Console

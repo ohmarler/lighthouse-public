@@ -9,6 +9,21 @@ A comprehensive performance monitoring and SEO analytics platform with AI-powere
 
 ---
 
+> **👋 Setting this up for your own business?**
+>
+> You only need to follow this `README.md` file. Everything else is handled
+> for you.
+>
+> **You can safely ignore** the `app/`, `components/`, `lib/`, `scripts/`,
+> and `__tests__/` folders — these contain the application code and do not
+> need to be touched during setup.
+>
+> **`CONTRIBUTING.md`** is for software developers who want to modify the
+> code. You can ignore it.
+>
+> **`.env.example`** is a template you will copy and fill in during Step 2.
+> Do not edit it directly.
+
 ## What You Get
 
 Full-featured performance monitoring with:
@@ -99,7 +114,7 @@ All features are included for this cost. No hidden fees or surprise charges.
 
 ## Clean-Room Setup (Beginner Friendly)
 
-Use this path when you want a fresh, zero‑context setup from a clean clone. It focuses on the required integrations and the exact order of actions so you can validate and deploy without guessing.
+Use this path when you want a fresh, zero‑context setup from a fresh ZIP download. It focuses on the required integrations and the exact order of actions so you can validate and deploy without guessing.
 
 **Clean‑room phases (short checklist):**
 - [ ] Clone + install dependencies → verify local run
@@ -495,6 +510,8 @@ Both should show version numbers. If either says "command not found", install th
    # Windows (PowerShell)
    cd $HOME\Downloads\YOUR-CHOSEN-NAME
    ```
+   (The `~` character means "your home folder." On Mac this is typically `/Users/yourname`. On Windows, use File Explorer to navigate to your Downloads folder instead.)
+
    > **Tip**: If you moved the folder somewhere else (e.g., `~/projects/`), use that path instead.
 
 5. **Install project dependencies**:
@@ -616,10 +633,7 @@ origin  https://github.com/YOUR-USERNAME/YOUR-CHOSEN-NAME.git (push)
    ```
 
 4. **Verify** `.env.local` is gitignored:
-   ```bash
-   cat .gitignore | grep "env"
-   ```
-   You should see entries including `.env` and `.env*.local` — both cover your `.env.local` file.
+   Open the `.gitignore` file in your code editor or text editor and confirm that `.env.local` appears somewhere in the list.
 
 **⚠️ Security**: Never commit your `.env.local` file. It contains secrets and is automatically excluded by `.gitignore`.
 
@@ -1016,15 +1030,17 @@ Generate required security secrets locally.
 
 **Mac/Linux users**:
 ```bash
-cd lighthouse-public
+cd YOUR-CHOSEN-NAME
 bash scripts/generate-secrets.sh
 ```
 
 **Windows users**:
 ```powershell
-cd lighthouse-public
+cd YOUR-CHOSEN-NAME
 powershell -ExecutionPolicy Bypass -File scripts/generate-secrets.ps1
 ```
+
+(Replace `YOUR-CHOSEN-NAME` with the folder name you chose in Step 1)
 
 **Output example**:
 
@@ -1274,7 +1290,22 @@ You'll come back to update the OAuth redirect URI in Step 15 (after Vercel deplo
 
 4. Copy JSON content:
    - Open the downloaded JSON file
-   - Copy the **entire contents** (it's one long line)
+
+   **⚠️ Critical: The JSON must be flattened to a single line.**
+
+   Use one of these methods:
+
+   - **Mac/Linux terminal**: `cat keyfile.json | jq -c .`
+   - **Windows or no terminal**: Paste the file contents into
+     [jsonformatter.org/json-minify](https://jsonformatter.org/json-minify)
+     and copy the output
+
+   **Important**: The `\n` sequences inside the `private_key` field must remain
+   as the two literal characters `\` and `n`. If your tool converts them into
+   real line breaks, authentication will fail silently.
+
+   See [docs/google-analytics.md](docs/google-analytics.md) for the full
+   explanation and safe/unsafe tool list.
 
 5. Grant access to Analytics:
    - Go to [Google Analytics](https://analytics.google.com/)
@@ -1284,6 +1315,21 @@ You'll come back to update the OAuth redirect URI in Step 15 (after Vercel deplo
    - Role: **Viewer**
    - Click **Add**
 
+6. Verify or create your Search Console property:
+   1. Go to [Google Search Console](https://search.google.com/search-console/)
+   2. Click **Add property** and enter your website URL
+   3. Complete ownership verification (HTML file method recommended — see
+      [docs/google-analytics.md](docs/google-analytics.md) Part 2 for full
+      walkthrough)
+   4. After verifying, go to **Settings → Users and permissions → Add user**
+   5. Enter the service account email from your JSON file (`client_email` field)
+   6. Select role: **Full**
+   7. Click **Add**
+
+   > **Note**: This step is required for Search Console data to appear in your
+   > dashboard. The service account needs separate permission for Search Console
+   > and Google Analytics — granting one does not grant the other.
+
 **Add to .env.local immediately**:
 
 ```bash
@@ -1291,7 +1337,7 @@ GOOGLE_ANALYTICS_PROPERTY_ID=properties/123456789
 GOOGLE_SERVICE_ACCOUNT_JSON={"type":"service_account",...}
 ```
 
-Paste the entire JSON content on one line for `GOOGLE_SERVICE_ACCOUNT_JSON`.
+Use the minification method from sub-step 4 above to flatten the JSON to a single line for `GOOGLE_SERVICE_ACCOUNT_JSON`.
 
 Save the file (Ctrl+S / Cmd+S).
 
@@ -1674,7 +1720,12 @@ Add **all** your environment variables to Vercel.
 2. Latest deployment should show a green checkmark (not red X)
 3. Click on the deployment URL
 4. You should see the sign-in page (OAuth won't work yet - that's Step 15)
-5. Check the browser console (F12) - no red errors about missing environment variables
+5. <details>
+   <summary><strong>Advanced: check browser console for errors</strong></summary>
+
+   Check the browser console (F12) - no red errors about missing environment variables
+
+   </details>
 
 **❌ If verification fails**:
 
@@ -1760,6 +1811,8 @@ If they don't match exactly, you'll get 401 Unauthorized errors (the #1 setup fa
 | `TARGET_BASE_URL` | From Vercel env vars | ✅ YES - Copy exact value |
 | `DASHBOARD_URL` | From Vercel env vars | No (but still add it) |
 | `SITEMAP_URL` | Full sitemap URL (if not at `/sitemap.xml`) | No (only if needed) |
+| `KEEP_RUNS` | Number of scan results to retain locally. Default: `14` | No (optional) |
+| `REGRESSION_THRESHOLD` | Score drop in points that triggers a regression alert. Default: `10` | No (optional) |
 
 **How to ensure exact match**:
 1. Open Vercel → Settings → Environment Variables
@@ -1803,6 +1856,8 @@ If they don't match exactly, you'll get 401 Unauthorized errors (the #1 setup fa
 
 **What's next**: Part 5 verifies everything works end-to-end
 
+Part 4 (Custom Domain) is optional. If you are not setting up a custom domain, skip to Part 5 to verify your setup.
+
 **Time remaining**: ~15 minutes
 
 ---
@@ -1841,11 +1896,12 @@ Verify everything works end-to-end.
 1. Go to your GitHub repository
 2. Click **Actions** tab
 3. Enable workflows if prompted
-4. Click **Lighthouse Scan** workflow (left sidebar)
+4. Click **Unlighthouse CI** workflow (left sidebar)
 5. Click **Run workflow** dropdown
 6. Branch: **main**
-7. Run competitor analysis: **✓** (check the box)
-8. Click green **Run workflow** button
+7. Click green **Run workflow** button
+
+> **Note**: Competitor analysis is configured from within the deployed dashboard after the first scan completes, not from the GitHub Actions trigger UI.
 
 **Wait 5-10 minutes** for the workflow to complete.
 
@@ -1858,15 +1914,14 @@ Verify everything works end-to-end.
 **Checklist**:
 
 - [ ] Enabled workflows in GitHub Actions
-- [ ] Triggered "Lighthouse Scan" workflow
-- [ ] Checked "Run competitor analysis" box
+- [ ] Triggered "Unlighthouse CI" workflow
 - [ ] Workflow completed successfully (green checkmark)
 - [ ] Verified no errors in logs
 
 **✅ Verify Success**:
 
 1. Go to GitHub → Actions tab
-2. Click on your "Lighthouse Scan" workflow run
+2. Click on your "Unlighthouse CI" workflow run
 3. You should see all jobs with green checkmarks:
    - `scan` job completed
    - "Upload to Dashboard" step shows success
@@ -1977,9 +2032,23 @@ will appear empty initially and this is normal:
 Refresh, allow 15-30 seconds for Claude to analyze your scan data. Subsequent loads
 use a 4-hour cache.
 
-**The Competitors tab requires manual configuration.** It does not pre-populate
-with any competitors — you must specify which domains and keywords to track. This
-is intentional: the dashboard cannot guess your competitive landscape.
+**Competitors tab setup (required manual step after deployment)**
+
+The Competitors tab will be empty after your first scan. This is expected —
+you must tell the dashboard which competitors and keywords to track.
+
+1. Sign into your dashboard and click the **Competitors** tab
+2. Click **Edit Configuration**
+3. Add 3–5 competitor website domains (e.g., `competitor.com`) — one per
+   field. Do not include `https://` or `www.`
+4. Add 5–10 target keywords you want to track rankings for (e.g.,
+   `legal billing software`)
+5. Click **Save Configuration**
+6. Click **Run Analysis**
+7. Wait up to 60 seconds. Analysis uses your DataForSEO account credits.
+
+Once complete, you will see keyword rankings, competitor profiles, and
+content gap opportunities populated in the tab.
 
 **Google Analytics data has a processing delay.** Even after setup is complete,
 GA4 takes 24-48 hours to make recent data available via the API. If your analytics
@@ -2117,12 +2186,16 @@ This is the #1 setup failure - ensure values match exactly.
    - Settings → Environment Variables
    - Find `ANTHROPIC_API_KEY`
    - Verify it starts with `sk-ant-api03-`
-2. Test the key:
+2. <details>
+   <summary><strong>Advanced: test your API key directly from the terminal</strong></summary>
+
    ```bash
    curl https://api.anthropic.com/v1/messages \
      -H "x-api-key: YOUR_KEY" \
      -H "anthropic-version: 2023-06-01"
    ```
+
+   </details>
 3. If key is invalid:
    - Go to https://console.anthropic.com/settings/keys
    - Create new API key
@@ -2582,7 +2655,18 @@ If you encounter issues and want to start fresh, follow these steps to clean up:
 
 ## License
 
-Apache License 2.0 - See [LICENSE](LICENSE) for details.
+Apache License 2.0
+
+**What this means for you in plain English:**
+- ✅ You may use this template to set up your own dashboard
+- ✅ You may modify it for your own needs
+- ✅ You may share modified versions with others
+- ⚠️ You must keep the `LICENSE` and `NOTICE` files in any copy you distribute
+- ⚠️ You must note what changes you made if you distribute a modified version
+- ℹ️ You receive this software with no warranty of any kind
+- ℹ️ You do not need to share your modifications unless you distribute the code
+
+See [LICENSE](LICENSE) for the complete legal text.
 
 ---
 

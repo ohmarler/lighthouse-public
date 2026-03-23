@@ -2,16 +2,16 @@
 
 ## When to Use This Guide
 
-**From the main README**: You're here from Step 9 of the main setup guide.
+**From the main README**: You're here from Step 10 of the main setup guide.
 
 **Purpose**: This guide provides detailed walkthrough for Google OAuth setup, including account creation. The README has a quick summary - this guide has the full details.
 
 **Prerequisites**:
-- ✅ You've completed Steps 1-2 of the README (forked repo, created .env file)
-- ✅ Your `.env` file is open in your editor
+- ✅ You've completed Steps 1-2 of the README (downloaded the ZIP and set up your GitHub repository, created .env.local file)
+- ✅ Your `.env.local` file is open in your editor
 - ✅ Credit card available for Google Cloud verification (no charges - just verification)
 
-**After completing this guide**: Return to the README and continue with Step 10.
+**After completing this guide**: Return to the README and continue with Step 11.
 
 ---
 
@@ -196,7 +196,7 @@ You should see "Publishing status: Testing" — this is normal for private use.
 3. **Authorized JavaScript origins**:
    - Click **+ Add URI**
    - You'll add your dashboard URL here AFTER deploying to Vercel
-   - **For now, you can skip this section** - come back after Step 11 in the main README
+   - **For now, you can skip this section** - come back after Step 15 in the main README
 
    **Example** (add later):
    - `https://your-project-abc123.vercel.app`
@@ -225,12 +225,12 @@ A popup will appear with your OAuth credentials:
 1. **Client ID**:
    - Long string ending in `.apps.googleusercontent.com`
    - Example: `123456789-abc123xyz.apps.googleusercontent.com`
-   - Copy this to your `.env` file
+   - Copy this to your `.env.local` file
 
 2. **Client secret**:
    - Starts with `GOCSPX-`
    - Example: `GOCSPX-AbC123XyZ789...`
-   - Copy this to your `.env` file
+   - Copy this to your `.env.local` file
 
 3. Click **OK** to close the popup
 
@@ -239,9 +239,9 @@ A popup will appear with your OAuth credentials:
 - Click on your OAuth 2.0 Client ID name
 - View Client ID and Client Secret
 
-### Add to Your .env File
+### Add to Your .env.local File
 
-**Open your `.env` file** (you created this in Step 2 of the README) and add these lines:
+**Open your `.env.local` file** (you created this in Step 2 of the README) and add these lines:
 
 ```bash
 GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com

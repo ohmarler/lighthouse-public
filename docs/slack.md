@@ -172,7 +172,7 @@ The webhook URL needs to be added as a secret in your GitHub repository so the s
 
 ### Step 4.1: Navigate to Repository Secrets
 
-1. Go to your GitHub repository (the fork of lighthouse-public)
+1. Go to your GitHub repository
 
 2. Click the **Settings** tab (gear icon)
    - Note: You need admin/owner access to see Settings

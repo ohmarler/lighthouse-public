@@ -1,3 +1,8 @@
+> **Note for business owners**: This file is intended for software
+> developers who want to contribute code back to this project. If you are
+> setting up the dashboard for your own business, you can safely ignore
+> this file entirely.
+
 # Contributing to Lighthouse SEO Dashboard
 
 Thank you for your interest in contributing! This document provides guidelines and instructions for contributing.
@@ -57,8 +62,8 @@ Your Pull Request submission constitutes acceptance of these terms.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/lighthouse-seo-dashboard.git
-   cd lighthouse-seo-dashboard
+   git clone https://github.com/ohmarler/lighthouse-public.git
+   cd lighthouse-public
    ```
 
 2. Install dependencies:

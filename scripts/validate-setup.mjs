@@ -10,10 +10,12 @@ console.log('============================================');
 console.log('Lighthouse Dashboard - Setup Validator');
 console.log('============================================\n');
 
-// Load .env file if it exists
+// Load .env.local as primary; fall back to .env with a warning
+const envLocalPath = path.join(__dirname, '..', '.env.local');
 const envPath = path.join(__dirname, '..', '.env');
-if (fs.existsSync(envPath)) {
-  const envContent = fs.readFileSync(envPath, 'utf-8');
+
+function loadEnvFile(filePath) {
+  const envContent = fs.readFileSync(filePath, 'utf-8');
   envContent.split('\n').forEach(line => {
     const match = line.match(/^([^#=]+)=(.*)$/);
     if (match) {
@@ -24,9 +26,17 @@ if (fs.existsSync(envPath)) {
       }
     }
   });
-  console.log('✓ Loaded .env file\n');
+}
+
+if (fs.existsSync(envLocalPath)) {
+  loadEnvFile(envLocalPath);
+  console.log('✓ Loaded .env.local file\n');
+} else if (fs.existsSync(envPath)) {
+  loadEnvFile(envPath);
+  console.warn('⚠️  .env.local not found — falling back to .env. For the standard setup path, use .env.local as instructed in README Step 2.');
+  console.log('');
 } else {
-  console.log('⚠️  No .env file found - checking process.env only\n');
+  console.log('⚠️  No .env.local file found - checking process.env only\n');
 }
 
 let hasErrors = false;
@@ -53,18 +63,70 @@ const requiredVars = [
   { name: 'DATAFORSEO_LOCATION_CODE', example: '2840' },
   { name: 'DATAFORSEO_LANGUAGE_CODE', example: 'en' },
   { name: 'CI_UPLOAD_SIGNING_KEY', example: '(generated via bash scripts/generate-secrets.sh)' },
+  {
+    name: 'KV_REST_API_URL',
+    example: 'https://your-database.upstash.io',
+    note: 'Auto-populated by Vercel KV after connecting storage in Step 13. If missing, reconnect KV in Vercel dashboard.',
+  },
+  {
+    name: 'KV_REST_API_TOKEN',
+    example: 'AxxxXXXX... (long token string)',
+    note: 'Auto-populated by Vercel KV after connecting storage in Step 13. If missing, reconnect KV in Vercel dashboard.',
+  },
 ];
 
 requiredVars.forEach(check => {
   const value = process.env[check.name];
   if (!value || value.trim() === '') {
     console.log(`✗ ${check.name} - MISSING (REQUIRED)`);
-    console.log(`  Example: ${check.example}\n`);
+    console.log(`  Example: ${check.example}`);
+    if (check.note) console.log(`  Note: ${check.note}`);
+    console.log('');
     hasErrors = true;
   } else {
     console.log(`✓ ${check.name} - SET`);
   }
 });
+
+// FORMAT VALIDATION for critical variables (supplemental — runs even when value is present)
+const nextauthSecret = process.env.NEXTAUTH_SECRET;
+if (nextauthSecret && nextauthSecret.trim() !== '') {
+  if (nextauthSecret.length < 32) {
+    console.log('');
+    console.log(
+      `✗ NEXTAUTH_SECRET is too short (${nextauthSecret.length} chars). ` +
+      `Must be at least 32 characters. ` +
+      `Generate a new value with: openssl rand -base64 32`
+    );
+    hasErrors = true;
+  }
+}
+
+const ciSigningKey = process.env.CI_UPLOAD_SIGNING_KEY;
+if (ciSigningKey && ciSigningKey.trim() !== '') {
+  if (!/^[0-9a-fA-F]{64}$/.test(ciSigningKey)) {
+    console.log('');
+    console.log(
+      `✗ CI_UPLOAD_SIGNING_KEY must be exactly 64 hex characters. ` +
+      `Current length: ${ciSigningKey.length}. ` +
+      `Generate a new value with: openssl rand -hex 32`
+    );
+    hasErrors = true;
+  }
+}
+
+const gaPropertyId = process.env.GOOGLE_ANALYTICS_PROPERTY_ID;
+if (gaPropertyId && gaPropertyId.trim() !== '') {
+  if (!gaPropertyId.startsWith('properties/')) {
+    console.log('');
+    console.log(
+      `✗ GOOGLE_ANALYTICS_PROPERTY_ID must start with 'properties/' ` +
+      `— example: properties/123456789. ` +
+      `Find this in Google Analytics Admin → Property Settings.`
+    );
+    hasErrors = true;
+  }
+}
 
 // TWO-LOCATION CHECK
 console.log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
@@ -76,8 +138,8 @@ console.log('  1. Vercel environment variables');
 console.log('  2. GitHub repository secrets');
 console.log('');
 console.log('Variables requiring two-location setup:');
-console.log(`  - CI_UPLOAD_SIGNING_KEY ${process.env.CI_UPLOAD_SIGNING_KEY ? '(SET in .env)' : '(NOT SET)'}`);
-console.log(`  - TARGET_BASE_URL ${process.env.TARGET_BASE_URL ? '(SET in .env)' : '(NOT SET)'}`);
+console.log(`  - CI_UPLOAD_SIGNING_KEY ${process.env.CI_UPLOAD_SIGNING_KEY ? '(SET in .env.local)' : '(NOT SET)'}`);
+console.log(`  - TARGET_BASE_URL ${process.env.TARGET_BASE_URL ? '(SET in .env.local)' : '(NOT SET)'}`);
 console.log('');
 console.log('⚠️  If these do not match exactly, you will get 401 Unauthorized errors.');
 console.log('   This is the #1 cause of setup failures.');
@@ -131,7 +193,7 @@ if (hasErrors) {
   console.log('✅ VALIDATION PASSED');
   console.log('   All required variables are set.\n');
   console.log('⚠️  IMPORTANT: Before deploying to Vercel and GitHub:');
-  console.log('   1. Copy all values from .env to Vercel environment variables');
+  console.log('   1. Copy all values from .env.local to Vercel environment variables');
   console.log('   2. Add CI_UPLOAD_SIGNING_KEY and TARGET_BASE_URL to GitHub Secrets');
   console.log('   3. Use IDENTICAL values in both locations');
   console.log('');

@@ -20,8 +20,8 @@ The included GitHub Actions workflow:
 
 **Prerequisites**: You must have:
 - Deployed your dashboard to Vercel
-- Forked this repository to your GitHub account
-- Admin access to your forked repository
+- Added this project to your GitHub account
+- Admin access to your GitHub repository
 
 ---
 
@@ -40,13 +40,13 @@ Generate a random 64-character string using your computer's built-in security to
    - **Windows**: Press `Win + R`, type "cmd", press Enter (or use Git Bash if installed)
    - **Linux**: Press `Ctrl + Alt + T`
 
-2. **Navigate to your project folder** (where you cloned the repo):
+2. **Navigate to your project folder**:
 
    ```bash
-   cd /path/to/lighthouse-public
+   cd /path/to/your-chosen-repo-name
    ```
 
-   Replace `/path/to/lighthouse-public` with your actual path.
+   Replace `/path/to/your-chosen-repo-name` with your actual path.
 
 3. **Run this command** (copy and paste the whole line):
 
@@ -62,7 +62,7 @@ Generate a random 64-character string using your computer's built-in security to
 **Option A: Use the provided PowerShell script (Recommended)**
 
 ```powershell
-cd lighthouse-public
+cd your-chosen-repo-name
 powershell -ExecutionPolicy Bypass -File scripts/generate-secrets.ps1
 ```
 
@@ -181,6 +181,8 @@ If your sitemap lives elsewhere, `SITEMAP_URL` is required for URL generation to
 | `CI_UPLOAD_SIGNING_KEY` | ✅ Yes | `a1b2c3d4e5...` (64 chars) | **Vercel env vars** (must match!) |
 | `TARGET_BASE_URL` | ✅ Yes | `https://example.com` | **Vercel env vars** (must match!) |
 | `SITEMAP_URL` | ⚪ Conditional | `https://example.com/sitemap_index.xml` | Nowhere else |
+| `KEEP_RUNS` | ⚪ Optional | `14` | Nowhere else |
+| `REGRESSION_THRESHOLD` | ⚪ Optional | `10` | Nowhere else |
 
 **Critical**: `CI_UPLOAD_SIGNING_KEY` and `TARGET_BASE_URL` must be set in **TWO** places with identical values:
 1. GitHub repository secrets (for the CI workflow)
@@ -196,10 +198,10 @@ To verify it's enabled:
 
 1. Go to your repository on GitHub
 2. Click the **Actions** tab
-3. You should see "Lighthouse Scan" in the list
+3. You should see "Unlighthouse CI" in the list
 4. If it shows "Workflows aren't being run", click the button to enable them
 
-## Step 3: Run Your First Scan
+## Step 4: Run Your First Scan
 
 ### Option A: Wait for Scheduled Run
 
@@ -207,10 +209,9 @@ The workflow runs automatically at 2 AM UTC every day.
 
 ### Option B: Manual Trigger
 
-1. Go to **Actions** → **Lighthouse Scan**
+1. Go to **Actions** → **Unlighthouse CI**
 2. Click **Run workflow**
-3. Optionally enable competitor analysis
-4. Click the green **Run workflow** button
+3. Click the green **Run workflow** button
 
 ### Option C: Trigger from Dashboard
 
@@ -222,7 +223,7 @@ To enable the "Trigger Scan" button in your dashboard UI, add these **Vercel env
 |------------------------|---------------------|-------------------------------------------------|
 | `GITHUB_TOKEN`         | `ghp_...`           | Personal Access Token with `repo` scope         |
 | `GITHUB_REPO_OWNER`    | `your-username`     | Your GitHub username or organization            |
-| `GITHUB_REPO_NAME`     | `lighthouse-public` | Your forked repository name                     |
+| `GITHUB_REPO_NAME`     | `your-chosen-repo-name` | Your repository name                     |
 
 **Important**: These are Vercel env vars, NOT GitHub Secrets. They enable manual scan triggering from the dashboard.
 
@@ -289,14 +290,14 @@ The workflow sends three types of notifications:
 
 Your workflow already includes Slack notification logic. After adding the secret:
 
-1. Trigger a manual scan via **Actions** → **Lighthouse Scan** → **Run workflow**
+1. Trigger a manual scan via **Actions** → **Unlighthouse CI** → **Run workflow**
 2. Wait for the scan to complete
 3. Check your Slack channel for the notification
 
 **Expected Notification Format**:
 
 ```
-🎯 Lighthouse Scan Complete
+🎯 Unlighthouse CI Complete
 
 Performance: 95 (↑ +2)
 Accessibility: 98 (→ 0)
@@ -348,7 +349,7 @@ Automatically trigger a Vercel redeployment after each scan completes, ensuring 
 3. Scroll to **Deploy Hooks** section
 4. Click **Create Hook**
 5. Fill in details:
-   - **Hook Name**: `Lighthouse Scan` (or any descriptive name)
+   - **Hook Name**: `Unlighthouse CI` (or any descriptive name)
    - **Git Branch**: `main` (or your default branch)
 6. Click **Create Hook**
 7. **Copy the webhook URL** - it looks like:
@@ -468,7 +469,7 @@ These are **Vercel env vars**, NOT GitHub Secrets:
 |----------|-------|---------|
 | `GITHUB_TOKEN` | Your personal access token | `ghp_XXXX...` |
 | `GITHUB_REPO_OWNER` | Your GitHub username or org | `johndoe` |
-| `GITHUB_REPO_NAME` | Repository name | `lighthouse-public` |
+| `GITHUB_REPO_NAME` | Repository name | `your-chosen-repo-name` |
 
 4. Click **Save** after each
 5. **Redeploy your dashboard** for changes to take effect

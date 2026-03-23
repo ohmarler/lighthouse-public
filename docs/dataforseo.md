@@ -7,8 +7,8 @@
 **Purpose**: This guide provides detailed walkthrough for DataForSEO setup, including account creation. The README has a quick summary - this guide has the full details.
 
 **Prerequisites**:
-- ✅ You've completed Steps 1-2 of the README (forked repo, created .env file)
-- ✅ Your `.env` file is open in your editor
+- ✅ You've completed Steps 1-2 of the README (downloaded the ZIP and set up your GitHub repository, created .env.local file)
+- ✅ Your `.env.local` file is open in your editor
 - ✅ Credit card or PayPal account ready ($50 minimum deposit)
 
 **After completing this guide**: Return to the README and continue with Step 6.
@@ -119,12 +119,12 @@ Sometimes new accounts need to generate credentials:
 1. **API Login**:
    - Usually your email address: `your-email@example.com`
    - Or an auto-generated username: `api_user_12345`
-   - **Copy this exactly** - you'll need it for your `.env` file
+   - **Copy this exactly** - you'll need it for your `.env.local` file
 
 2. **API Password**:
    - A long random string: `a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6`
    - Click **Show** or **Reveal** if it's hidden
-   - **Copy this exactly** - you'll need it for your `.env` file
+   - **Copy this exactly** - you'll need it for your `.env.local` file
 
 **⚠️ Important Security Notes**:
 
@@ -133,9 +133,9 @@ Sometimes new accounts need to generate credentials:
 - If you lose it, you'll need to regenerate it (which invalidates the old one)
 - Don't share these credentials publicly or commit them to version control
 
-### Add to Your .env File
+### Add to Your .env.local File
 
-Open your `.env` file and add these lines:
+Open your `.env.local` file and add these lines:
 
 ```bash
 # DataForSEO Credentials
@@ -145,7 +145,7 @@ DATAFORSEO_PASSWORD=a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6
 
 Replace with your actual API Login and API Password.
 
-**Save the file** - you'll upload these to Vercel in Step 10 of the main README.
+**Save the file** - you'll upload these to Vercel in Step 14 of the main README.
 
 > **📍 Regional Settings (Required)**: `DATAFORSEO_LOCATION_CODE` and `DATAFORSEO_LANGUAGE_CODE` are required configuration values. Use the defaults shown in `.env.example` or set values for your target region and language. See the [Advanced Topics](#custom-location-and-language-codes) section for location codes and configuration details.
 
@@ -153,7 +153,7 @@ Replace with your actual API Login and API Password.
 
 ## Part 4: Configure Competitors in Dashboard
 
-After deploying to Vercel (Step 11 in main README), configure which competitors to track:
+After deploying to Vercel (Step 13 in main README), configure which competitors to track:
 
 1. Visit your dashboard and sign in
 2. Click the **Competitors** tab (or **Competitor Analysis**)
@@ -407,7 +407,7 @@ DataForSEO supports 100+ locations. Common examples:
 
 ### How to Configure Custom Location/Language
 
-Add to your `.env` file (and Vercel environment variables):
+Add to your `.env.local` file (and Vercel environment variables):
 
 ```bash
 # Default: USA, English
@@ -468,7 +468,7 @@ Deploy one dashboard instance per region:
 
 **Implementation**:
 
-1. Fork the repository 3 times (or use one repo with 3 Vercel projects)
+1. Create 3 separate repositories from the template (or use one repo with 3 Vercel projects)
 2. Configure each Vercel project with different environment variables
 3. Each instance has separate Vercel KV database
 4. Each instance has separate DataForSEO config (competitors, keywords)
@@ -671,7 +671,7 @@ If you hit rate limits, the dashboard will show an error. To resolve:
 
 After completing DataForSEO setup:
 
-1. ✅ Verify DataForSEO credentials are in your `.env` file
+1. ✅ Verify DataForSEO credentials are in your `.env.local` file
 2. ✅ Verify $50 minimum deposit is in your DataForSEO account
 3. ✅ API Login and API Password are copied correctly
 4. → Continue with [main setup guide](../README.md) to deploy to Vercel

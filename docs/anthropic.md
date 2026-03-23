@@ -7,8 +7,8 @@
 **Purpose**: This guide provides a detailed walkthrough for setting up the Anthropic Claude API, which powers the AI-generated SEO insights in your dashboard. The README has a quick summary - this guide has the full details.
 
 **Prerequisites**:
-- ✅ You've completed Steps 1-3 of the README (forked repo, created .env file, generated secrets)
-- ✅ Your `.env` file is open in your editor
+- ✅ You've completed Steps 1-3 of the README (downloaded the ZIP and set up your GitHub repository, created .env.local file, generated secrets)
+- ✅ Your `.env.local` file is open in your editor
 - ✅ Credit card for billing setup (you control spending with budget limits)
 
 **After completing this guide**: Return to the README and continue with Step 5.
@@ -23,7 +23,7 @@ This guide walks you through setting up Anthropic's Claude API to enable AI-powe
 
 - Email address
 - Credit card (for pay-as-you-go billing)
-- Your `.env` file open in an editor
+- Your `.env.local` file open in an editor
 
 **Why Anthropic Claude?**
 
@@ -95,9 +95,9 @@ Claude analyzes your Lighthouse scores, competitor data, and site metrics to pro
 - If you lose it, you'll need to generate a new one
 - If compromised, delete it immediately and create a new one
 
-### Add to Your .env File
+### Add to Your .env.local File
 
-Open your `.env` file and add these lines:
+Open your `.env.local` file and add these lines:
 
 ```bash
 # Anthropic API Key for AI Insights
@@ -117,7 +117,7 @@ Replace `sk-ant-api03-your-actual-key-here` with your actual API key.
 
 **Save the file** - you'll upload this to Vercel in Step 14 of the main README.
 
-**✅ Verify Success**: Your `.env` file should include both `ANTHROPIC_API_KEY` and `AI_MODEL` with non-empty values.
+**✅ Verify Success**: Your `.env.local` file should include both `ANTHROPIC_API_KEY` and `AI_MODEL` with non-empty values.
 
 ---
 
@@ -265,7 +265,7 @@ Replace `YOUR_API_KEY_HERE` with your actual API key.
 2. Verify your key exists and is active
 3. If unsure, generate a new key
 4. Copy the new key carefully (use the Copy button)
-5. Update your `.env` file with the new key
+5. Update your `.env.local` file with the new key
 6. Redeploy to Vercel if already deployed
 
 ### "Billing not set up" or 402 Payment Required
@@ -357,7 +357,7 @@ Replace `YOUR_API_KEY_HERE` with your actual API key.
 
 After completing Anthropic setup:
 
-1. ✅ Verify `ANTHROPIC_API_KEY` is in your `.env` file
+1. ✅ Verify `ANTHROPIC_API_KEY` is in your `.env.local` file
 2. ✅ Verify billing is set up in Anthropic Console
 3. ✅ Budget alerts configured (recommended)
 4. → Continue with [main setup guide](../README.md) Step 5 (DataForSEO or skip to Step 6)
