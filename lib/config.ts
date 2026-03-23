@@ -267,7 +267,7 @@ export function loadConfig(): Config {
     },
     operational: {
       regressionThreshold: getOptionalNumber('REGRESSION_THRESHOLD', 10),
-      keepRuns: getOptionalNumber('KEEP_RUNS', 10),
+      keepRuns: getOptionalNumber('KEEP_RUNS', 14),
     },
     github: {
       token: getOptional('GITHUB_TOKEN') || null,
