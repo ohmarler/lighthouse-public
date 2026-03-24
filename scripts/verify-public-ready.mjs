@@ -67,6 +67,7 @@ const SKIP_PATTERNS = [
   '.env.example', // Skip .env.example as it has placeholder examples
   'forbidden-patterns.txt', // Skip patterns file (contains the patterns we're looking for)
   'verify-public-ready.mjs', // Skip this verification script itself
+  'docs/completion-reports', // Skip historical session records (legitimately reference old strings)
 ];
 
 // Required files for public release
