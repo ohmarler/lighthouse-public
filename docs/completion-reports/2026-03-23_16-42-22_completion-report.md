@@ -13,7 +13,7 @@
 
 ## SESSION SUMMARY
 
-This session executed all 23 tasks from the Post-Audit PRD (`.taskmaster/tasks/tasks.json`), targeting documentation accuracy and setup validator improvements identified in the 2026-03-23 audit report (`REPO_AUDIT_REPORT.md`). The session spanned two context windows. The first window completed Tasks 1.1–6.2 and the second window completed Tasks 6.3, 6.4, and 6.1 (final three tasks in taskmaster order), then generated this report and committed.
+This session executed all 23 tasks from the Post-Audit PRD (`.taskmaster/tasks/tasks.json`), targeting documentation accuracy and setup validator improvements identified in the 2026-03-23 audit report (`docs/completion-reports/REPO_AUDIT_REPORT.md`). The session spanned two context windows. The first window completed Tasks 1.1–6.2 and the second window completed Tasks 6.3, 6.4, and 6.1 (final three tasks in taskmaster order), then generated this report and committed.
 
 **Outcomes**: All 23 tasks completed / 0 blocked / 0 skipped.
 
