@@ -108,7 +108,7 @@ Your Vercel Dashboard (Next.js app)
 | **Language** | TypeScript 5 (strict mode) |
 | **Authentication** | NextAuth v4 (Google OAuth, optional domain restriction) |
 | **Data Storage** | Vercel KV (Upstash Redis) |
-| **AI** | Anthropic Claude API (claude-3-5-haiku for fast analysis) |
+| **AI** | Anthropic Claude API (claude-sonnet-4-6) |
 | **SEO APIs** | DataForSEO (SERP, keywords, competitors) |
 | **Analytics** | Google Analytics 4 Data API |
 | **Lighthouse** | Unlighthouse CLI |
@@ -795,10 +795,10 @@ An Anthropic account is required for:
 
 ```bash
 ANTHROPIC_API_KEY=sk-ant-________________________
-AI_MODEL=claude-3-5-haiku-20241022
+AI_MODEL=claude-sonnet-4-6
 ```
 
-> **`AI_MODEL` Note**: The value `claude-3-5-haiku-20241022` is current as of this writing. Anthropic periodically deprecates older model versions. If you receive an error referencing an invalid model, visit [Anthropic's model documentation](https://docs.anthropic.com/en/docs/about-claude/models) to find the current Haiku model identifier and update this variable in Vercel.
+> **`AI_MODEL` Note**: The value `claude-sonnet-4-6` is the current recommended model. If you receive an error referencing an invalid model, visit [Anthropic's model documentation](https://docs.anthropic.com/en/docs/about-claude/models) to find the current model identifier and update this variable in Vercel.
 
 Save the file (Ctrl+S / Cmd+S).
 
@@ -1491,7 +1491,7 @@ Use this table to look up which step generated each variable. All variables in t
 | `KV_REST_API_URL` | Vercel KV (Step 13) | Auto-populated after KV setup |
 | `KV_REST_API_TOKEN` | Vercel KV (Step 13) | Auto-populated after KV setup |
 | `ANTHROPIC_API_KEY` | Anthropic (Step 4) | |
-| `AI_MODEL` | Fixed value | `claude-3-5-haiku-20241022` |
+| `AI_MODEL` | Fixed value | `claude-sonnet-4-6` |
 | `DATAFORSEO_LOGIN` | DataForSEO (Step 5) | Your account email |
 | `DATAFORSEO_PASSWORD` | DataForSEO (Step 5) | API password (not account password) |
 | `DATAFORSEO_LOCATION_CODE` | DataForSEO | `2840` = USA. **Change this if your target audience is not in the US.** See [location codes](https://docs.dataforseo.com/v3/appendix/locations_and_languages/) |
@@ -2415,7 +2415,7 @@ This is the #1 setup failure — ensure values match exactly.
 3. Reduce pages scanned (see "Scans Timing Out" above)
 4. For AI insights:
    - Refresh manually instead of automatically
-   - Use cheaper model (already using cheapest: Haiku)
+   - Use a cheaper model (e.g. switch `AI_MODEL` to `claude-haiku-4-5-20251001`)
 
 ---
 
@@ -2423,7 +2423,7 @@ This is the #1 setup failure — ensure values match exactly.
 
 ### Reduce Anthropic Costs
 
-- Already using cheapest model (Claude 3.5 Haiku)
+- Switch to a cheaper model by setting `AI_MODEL=claude-haiku-4-5-20251001` in Vercel
 - Reduce insight refresh frequency (refresh manually)
 - Reduce scan frequency (weekly instead of daily)
 

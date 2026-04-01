@@ -34,7 +34,7 @@ Claude analyzes your Lighthouse scores, competitor data, and site metrics to pro
 - Schema markup recommendations
 - Copy improvements with before/after comparisons
 
-**Cost**: Pay-as-you-go pricing. Typical usage: **$3-8/month** for daily dashboard use. The dashboard uses Claude 3.5 Haiku, Anthropic's fastest and most cost-effective model.
+**Cost**: Pay-as-you-go pricing. The dashboard uses Claude Sonnet 4.6 (`claude-sonnet-4-6`).
 
 ---
 
@@ -104,14 +104,12 @@ Open your `.env.local` file and add these lines:
 ANTHROPIC_API_KEY=sk-ant-api03-your-actual-key-here
 
 # Anthropic model name (must match the required value in .env.example)
-AI_MODEL=claude-3-5-haiku-20241022
+AI_MODEL=claude-sonnet-4-6
 ```
 
-> **Model name note**: The value above was current at time of writing. Anthropic
-> periodically deprecates model versions. If you receive a model-not-found error,
-> visit [docs.anthropic.com/en/docs/about-claude/models](https://docs.anthropic.com/en/docs/about-claude/models)
-> to confirm the current identifier for Claude 3.5 Haiku and update the value
-> in your Vercel environment variables.
+> **Model name note**: If you receive a model-not-found error, visit
+> [docs.anthropic.com/en/docs/about-claude/models](https://docs.anthropic.com/en/docs/about-claude/models)
+> to confirm the current model identifier and update the value in your Vercel environment variables.
 
 Replace `sk-ant-api03-your-actual-key-here` with your actual API key.
 
@@ -148,7 +146,7 @@ Replace `sk-ant-api03-your-actual-key-here` with your actual API key.
 
 ### Understanding Costs
 
-The dashboard uses **Claude 3.5 Haiku** for fast, cost-effective analysis:
+The dashboard uses **Claude Sonnet 4.6** (`claude-sonnet-4-6`) for analysis:
 
 | Action | Approximate Cost |
 |--------|------------------|
@@ -220,7 +218,7 @@ npm run test:apis
 ```
 ✓ Anthropic API connection successful
 ✓ API key valid
-✓ Model access confirmed (claude-3-5-haiku)
+✓ Model access confirmed (claude-sonnet-4-6)
 ```
 
 ### Option C: Quick API Test
@@ -233,7 +231,7 @@ curl https://api.anthropic.com/v1/messages \
   -H "anthropic-version: 2023-06-01" \
   -H "content-type: application/json" \
   -d '{
-    "model": "claude-3-5-haiku-20241022",
+    "model": "claude-sonnet-4-6",
     "max_tokens": 100,
     "messages": [{"role": "user", "content": "Say hello"}]
   }'

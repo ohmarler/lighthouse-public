@@ -57,7 +57,7 @@ const requiredVars = [
   { name: 'GOOGLE_ANALYTICS_PROPERTY_ID', example: 'properties/123456789' },
   { name: 'GOOGLE_SERVICE_ACCOUNT_JSON', example: '(JSON object from service account)' },
   { name: 'ANTHROPIC_API_KEY', example: 'sk-ant-... (from console.anthropic.com)' },
-  { name: 'AI_MODEL', example: 'claude-3-5-haiku-20241022' },
+  { name: 'AI_MODEL', example: 'claude-sonnet-4-6' },
   { name: 'DATAFORSEO_LOGIN', example: '(from dataforseo.com)' },
   { name: 'DATAFORSEO_PASSWORD', example: '(from dataforseo.com)' },
   { name: 'DATAFORSEO_LOCATION_CODE', example: '2840' },

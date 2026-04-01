@@ -200,7 +200,7 @@ export function loadConfig(): Config {
     throw new Error(
       `CONFIGURATION ERROR: AI_MODEL value "${aiModel}" does not appear to be a valid ` +
       `Anthropic model identifier. Valid models start with "claude-". ` +
-      `Current recommended value: claude-3-5-haiku-20241022. ` +
+      `Current recommended value: claude-sonnet-4-6. ` +
       `See https://docs.anthropic.com/en/docs/about-claude/models for current model names.`
     );
   }

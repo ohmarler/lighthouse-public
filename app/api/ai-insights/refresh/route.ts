@@ -14,7 +14,7 @@ export const maxDuration = 60; // Maximum allowed on hobby plan
  * POST /api/ai-insights/refresh
  *
  * Generates fresh AI insights using Anthropic API and stores in cache.
- * Uses Haiku model for faster responses (5-10x faster than Sonnet).
+ * Uses the model configured via AI_MODEL environment variable (default: claude-sonnet-4-6).
  */
 export async function POST(request: NextRequest) {
   try {
@@ -412,7 +412,7 @@ CRITICAL REQUIREMENTS:
 
 Return ONLY valid JSON, no markdown formatting.`;
 
-    // Use Haiku model for much faster responses (5-10x faster than Sonnet)
+    // Model is configured via AI_MODEL environment variable
     const message = await anthropic.messages.create({
       model: config.ai.model,  // resolved from AI_MODEL environment variable
       max_tokens: 8000, // Increased for comprehensive analysis with more suggestions

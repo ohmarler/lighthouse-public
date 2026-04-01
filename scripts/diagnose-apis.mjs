@@ -23,7 +23,7 @@ try {
 
     try {
       const message = await anthropic.messages.create({
-        model: process.env.AI_MODEL || 'claude-3-5-haiku-20241022',
+        model: process.env.AI_MODEL || 'claude-sonnet-4-6',
         max_tokens: 100,
         messages: [
           {

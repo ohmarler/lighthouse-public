@@ -38,7 +38,7 @@ describe('lib/config', () => {
       process.env.KV_REST_API_URL = 'https://kv.example.com';
       process.env.KV_REST_API_TOKEN = 'test-kv-token';
       process.env.ANTHROPIC_API_KEY = 'test-api-key';
-      process.env.AI_MODEL = 'claude-3-5-haiku-20241022';
+      process.env.AI_MODEL = 'claude-sonnet-4-6';
       process.env.DATAFORSEO_LOGIN = 'test-login';
       process.env.DATAFORSEO_PASSWORD = 'test-password';
       process.env.DATAFORSEO_LOCATION_CODE = '2840';
@@ -65,7 +65,7 @@ describe('lib/config', () => {
       process.env.KV_REST_API_URL = 'https://kv.example.com';
       process.env.KV_REST_API_TOKEN = 'test-kv-token';
       process.env.ANTHROPIC_API_KEY = 'test-api-key';
-      process.env.AI_MODEL = 'claude-3-5-haiku-20241022';
+      process.env.AI_MODEL = 'claude-sonnet-4-6';
       process.env.DATAFORSEO_LOGIN = 'test-login';
       process.env.DATAFORSEO_PASSWORD = 'test-password';
       process.env.DATAFORSEO_LOCATION_CODE = '2840';
@@ -91,7 +91,7 @@ describe('lib/config', () => {
       process.env.KV_REST_API_URL = 'https://kv.example.com';
       process.env.KV_REST_API_TOKEN = 'test-kv-token';
       process.env.ANTHROPIC_API_KEY = 'test-api-key';
-      process.env.AI_MODEL = 'claude-3-5-haiku-20241022';
+      process.env.AI_MODEL = 'claude-sonnet-4-6';
       process.env.DATAFORSEO_LOGIN = 'test-login';
       process.env.DATAFORSEO_PASSWORD = 'test-password';
       process.env.DATAFORSEO_LOCATION_CODE = '2840';
@@ -104,7 +104,7 @@ describe('lib/config', () => {
 
       expect(config.app.name).toBe('Lighthouse Dashboard');
       expect(config.app.sitemapUrl).toBe('https://example.com/sitemap.xml');
-      expect(config.ai.model).toBe('claude-3-5-haiku-20241022');
+      expect(config.ai.model).toBe('claude-sonnet-4-6');
     });
 
     it('regression threshold defaults to 10', async () => {
@@ -118,7 +118,7 @@ describe('lib/config', () => {
       process.env.KV_REST_API_URL = 'https://kv.example.com';
       process.env.KV_REST_API_TOKEN = 'test-kv-token';
       process.env.ANTHROPIC_API_KEY = 'test-api-key';
-      process.env.AI_MODEL = 'claude-3-5-haiku-20241022';
+      process.env.AI_MODEL = 'claude-sonnet-4-6';
       process.env.DATAFORSEO_LOGIN = 'test-login';
       process.env.DATAFORSEO_PASSWORD = 'test-password';
       process.env.DATAFORSEO_LOCATION_CODE = '2840';
@@ -143,7 +143,7 @@ describe('lib/config', () => {
       process.env.KV_REST_API_URL = 'https://kv.example.com';
       process.env.KV_REST_API_TOKEN = 'test-kv-token';
       process.env.ANTHROPIC_API_KEY = 'test-api-key';
-      process.env.AI_MODEL = 'claude-3-5-haiku-20241022';
+      process.env.AI_MODEL = 'claude-sonnet-4-6';
       process.env.DATAFORSEO_LOGIN = 'test-login';
       process.env.DATAFORSEO_PASSWORD = 'test-password';
       process.env.DATAFORSEO_LOCATION_CODE = '2840';
@@ -175,7 +175,7 @@ describe('lib/config', () => {
       process.env.KV_REST_API_URL = 'https://kv.example.com';
       process.env.KV_REST_API_TOKEN = 'test-kv-token';
       process.env.ANTHROPIC_API_KEY = 'test-api-key';
-      process.env.AI_MODEL = 'claude-3-5-haiku-20241022';
+      process.env.AI_MODEL = 'claude-sonnet-4-6';
       process.env.DATAFORSEO_LOGIN = 'test-login';
       process.env.DATAFORSEO_PASSWORD = 'test-password';
       process.env.DATAFORSEO_LOCATION_CODE = '2840';
@@ -208,7 +208,7 @@ describe('lib/config', () => {
       process.env.KV_REST_API_URL = 'https://kv.example.com';
       process.env.KV_REST_API_TOKEN = 'test-kv-token';
       process.env.ANTHROPIC_API_KEY = 'test-api-key';
-      process.env.AI_MODEL = 'claude-3-5-haiku-20241022';
+      process.env.AI_MODEL = 'claude-sonnet-4-6';
       process.env.DATAFORSEO_LOGIN = 'test-login';
       process.env.DATAFORSEO_PASSWORD = 'test-password';
       process.env.DATAFORSEO_LOCATION_CODE = '2840';
