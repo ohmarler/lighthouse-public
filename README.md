@@ -30,8 +30,9 @@ A comprehensive performance monitoring and SEO analytics platform with AI-powere
 
 - [What You Get](#what-you-get)
 - [How It Works](#how-it-works)
-- [Costs](#costs)
-- [Before You Start](#before-you-start)
+- [Before You Start — Complete These First](#before-you-start--complete-these-first)
+  - [Step 0A: Create Your GitHub Account](#step-0a-create-your-github-account)
+  - [Step 0B: Install Required Software](#step-0b-install-required-software)
 - [Setup Overview](#setup-overview)
 - **Setup Guide**
   - [Phase 0: Download and Prepare](#phase-0-download-and-prepare)
@@ -119,48 +120,96 @@ Your Vercel Dashboard (Next.js app)
 
 ---
 
-## Costs
+<a id="before-you-start"></a>
 
-**Be informed about costs upfront:**
+## Before You Start — Complete These First
 
-### One-Time Costs
-- **DataForSEO**: $50 minimum deposit (lasts months for typical usage)
-
-### Monthly Recurring
-- **Anthropic API**: ~$5/month for daily scans
-- **Vercel**: Free (hobby tier sufficient)
-- **Vercel KV**: Free (free tier sufficient)
-- **GitHub Actions**: Free (within limits)
-- **Google Cloud**: Free (within limits)
-
-### Total
-**~$55 first month, ~$5/month ongoing**
-
-All features are included for this cost. No hidden fees or surprise charges.
+> Complete everything in this section before starting Phase 0. These are
+> not optional background items — Phase 0 will fail partway through if any
+> of these are missing.
 
 ---
 
-## Before You Start
+### Step 0A: Create Your GitHub Account
 
-> **Each setup step links to its detailed guide when needed. You do not need to read those guides ahead of time — just follow the steps in order.**
+> **Why first?** Step 1 requires you to create a GitHub repository and push
+> code to it. You must be signed in to GitHub before that step begins.
 
-### Accounts You'll Need
+**Why needed**: Hosts your copy of the dashboard code and runs automated daily scans via GitHub Actions.
 
-| What You Need | For | Cost | Time |
-|--------------|-----|------|------|
-| GitHub account | Host code, run scans | Free | 5 min |
-| Vercel account | Deploy dashboard | Free | 3 min |
-| Google Cloud project | OAuth sign-in + Analytics | Free | 10 min |
-| **Anthropic account** | **AI insights** | **~$5/mo** | **5 min** |
-| **DataForSEO account** | **Competitor tracking** | **$50 deposit** | **10 min** |
+**Cost**: Free
 
-**Bold items** = required for the dashboard to start. The application will refuse to run if Anthropic or DataForSEO credentials are missing — there is no degraded mode.
+<details>
+<summary><strong>Don't have a GitHub account? Click here for step-by-step instructions</strong></summary>
 
-### Software You'll Need on Your Computer
+A GitHub account is required for:
+- Hosting your copy of the dashboard code
+- Running automated daily scans (GitHub Actions)
+- Storing your configuration securely
+
+**Estimated Time**: 5 minutes
+
+### Instructions
+
+1. Go to [github.com/signup](https://github.com/signup)
+
+2. **Enter your email address**:
+   - Use a personal or work email
+   - Click **Continue**
+
+3. **Create a password**:
+   - At least 15 characters, or 8+ characters with a number and lowercase letter
+   - Click **Continue**
+
+4. **Choose a username**:
+   - Must be unique across all of GitHub
+   - Can contain letters, numbers, and hyphens
+   - Example: `john-smith`, `acme-corp`, `yourcompany-dev`
+   - This will appear in your repository URL — keep it professional
+   - Click **Continue**
+
+5. **Email preferences**: Type `n` and click **Continue** (you can change this later)
+
+6. **Verify your account**: Solve the CAPTCHA puzzle → Click **Create account**
+
+7. **Verify your email**:
+   - Check your inbox for an email from GitHub
+   - Click the verification link
+   - You'll be redirected back to GitHub
+
+8. **Personalization questions**: Click **Skip personalization** at the bottom
+
+9. **Choose a plan**: Select **Free** → Click **Continue for free**
+
+10. **You now have a GitHub account!** Sign in and continue below.
+
+</details>
+
+**Already have an account?** Sign in at [github.com](https://github.com) and continue.
+
+**Checklist**:
+
+- [ ] GitHub account created or confirmed
+- [ ] Signed in to GitHub
+
+✅ **Checkpoint**: GitHub account ready
+
+---
+
+### Step 0B: Install Required Software
+
+Install both tools now and confirm they work before continuing.
 
 - **Node.js 18+** — runs the setup validation scripts
 - **Git** — downloads the template and syncs with GitHub
 - **A terminal** — text window where you type commands
+
+```bash
+git --version   # should show a version number
+node --version  # should show v18 or higher
+```
+
+If either command says 'command not found', use the guides below to install that tool before continuing.
 
 <details>
 <summary><strong>How to open your terminal (command prompt)</strong></summary>
@@ -253,6 +302,46 @@ sudo apt install git
 **Why v18+?** This project uses modern JavaScript features that require Node.js 18 or later. Older versions will cause build errors.
 
 </details>
+
+---
+
+### Accounts You Will Create During Setup
+
+| What You Need | For | Cost | Time |
+|--------------|-----|------|------|
+| Vercel account | Deploy dashboard | Free | 3 min |
+| Google Cloud project | OAuth sign-in + Analytics | Free | 10 min |
+| **Anthropic account** | **AI insights** | **~$5/mo** | **5 min** |
+| **DataForSEO account** | **Competitor tracking** | **$50 deposit** | **10 min** |
+
+**Bold items** = required for the dashboard to start. The application will refuse to run if Anthropic or DataForSEO credentials are missing — there is no degraded mode.
+
+> GitHub is the only account you need before Phase 0. All other accounts
+> are created during Phase 1, directly before their credentials are used.
+> Do not create them now — you will be walked through each one in order.
+
+---
+
+### Costs
+
+**Be informed about costs upfront:**
+
+#### One-Time Costs
+- **DataForSEO**: $50 minimum deposit (lasts months for typical usage)
+
+#### Monthly Recurring
+- **Anthropic API**: ~$5/month for daily scans
+- **Vercel**: Free (hobby tier sufficient)
+- **Vercel KV**: Free (free tier sufficient)
+- **GitHub Actions**: Free (within limits)
+- **Google Cloud**: Free (within limits)
+
+#### Total
+**~$55 first month, ~$5/month ongoing**
+
+All features are included for this cost. No hidden fees or surprise charges.
+
+---
 
 ### Your Website Requirements
 
@@ -350,10 +439,10 @@ Follow the phases in order. Each step builds on the previous one.
 >
 > The `CI_UPLOAD_SIGNING_KEY` secret **must be identical** in two places:
 >
-> 1. **Vercel Environment Variables** (Step 15)
-> 2. **GitHub Repository Secrets** (Step 18)
+> 1. **Vercel Environment Variables** (Step 14)
+> 2. **GitHub Repository Secrets** (Step 17)
 >
-> This is the #1 cause of setup failures. When you generate this key in Step 10, save it somewhere safe. Copy-paste the exact same value to both locations — do not regenerate or retype it.
+> This is the #1 cause of setup failures. When you generate this key in Step 9, save it somewhere safe. Copy-paste the exact same value to both locations — do not regenerate or retype it.
 
 ---
 
@@ -366,6 +455,11 @@ Get the code onto your computer and create the file where you'll store your cred
 **Estimated time**: 10 minutes
 
 **What this step does**: You'll download a clean copy of the dashboard template, rename it to reflect your brand, set it up on your computer, and push it to a new GitHub repository under your own account. This gives you a fully independent project with no connection to the original template.
+
+> **Pre-condition**: You must be signed in to GitHub before starting this
+> step. If you haven't created your GitHub account yet, go back to
+> [Step 0A: Create Your GitHub Account](#step-0a-create-your-github-account)
+> and complete it first.
 
 ##### Part A: Choose Your Project Name
 
@@ -574,70 +668,7 @@ Create accounts for all required services. Keep your `.env.local` file open — 
 >
 > **Action**: Have your `.env.local` file open. Add each key immediately after generating it.
 
-#### Step 3: GitHub Account — Free
-
-**Why needed**: Hosts your copy of the dashboard code and runs automated daily scans via GitHub Actions.
-
-**Cost**: Free
-
-<details>
-<summary><strong>Don't have a GitHub account? Click here for step-by-step instructions</strong></summary>
-
-A GitHub account is required for:
-- Hosting your copy of the dashboard code
-- Running automated daily scans (GitHub Actions)
-- Storing your configuration securely
-
-**Estimated Time**: 5 minutes
-
-### Instructions
-
-1. Go to [github.com/signup](https://github.com/signup)
-
-2. **Enter your email address**:
-   - Use a personal or work email
-   - Click **Continue**
-
-3. **Create a password**:
-   - At least 15 characters, or 8+ characters with a number and lowercase letter
-   - Click **Continue**
-
-4. **Choose a username**:
-   - Must be unique across all of GitHub
-   - Can contain letters, numbers, and hyphens
-   - Example: `john-smith`, `acme-corp`, `yourcompany-dev`
-   - This will appear in your repository URL — keep it professional
-   - Click **Continue**
-
-5. **Email preferences**: Type `n` and click **Continue** (you can change this later)
-
-6. **Verify your account**: Solve the CAPTCHA puzzle → Click **Create account**
-
-7. **Verify your email**:
-   - Check your inbox for an email from GitHub
-   - Click the verification link
-   - You'll be redirected back to GitHub
-
-8. **Personalization questions**: Click **Skip personalization** at the bottom
-
-9. **Choose a plan**: Select **Free** → Click **Continue for free**
-
-10. **You now have a GitHub account!** Sign in and continue below.
-
-</details>
-
-**Already have an account?** Sign in at [github.com](https://github.com) and continue.
-
-**Checklist**:
-
-- [ ] GitHub account created or confirmed
-- [ ] Signed in to GitHub
-
-✅ **Checkpoint**: GitHub account ready
-
----
-
-#### Step 4: Google Cloud Account
+#### Step 3: Google Cloud Account
 
 **Estimated time**: 5 minutes
 
@@ -682,7 +713,7 @@ A GitHub account is required for:
 
 ---
 
-#### Step 5: Anthropic Account — AI Features (~$5/month)
+#### Step 4: Anthropic Account — AI Features (~$5/month)
 
 **Why needed**: Powers the AI Insights panel — executive summaries, prioritized action items, content suggestions, schema markup recommendations, and copy improvements.
 
@@ -784,7 +815,7 @@ Save the file (Ctrl+S / Cmd+S).
 
 ---
 
-#### Step 6: DataForSEO Account — Competitor Tracking ($50 deposit)
+#### Step 5: DataForSEO Account — Competitor Tracking ($50 deposit)
 
 **Why needed**: Competitor SERP position tracking, keyword analysis, and content gap identification.
 
@@ -831,7 +862,7 @@ Save the file (Ctrl+S / Cmd+S).
 
 ---
 
-#### Step 7: Vercel Account
+#### Step 6: Vercel Account
 
 **Why needed**: Hosts the dashboard
 
@@ -894,7 +925,7 @@ A Vercel account is required for:
 
 ---
 
-#### Step 8: Google Analytics Setup
+#### Step 7: Google Analytics Setup
 
 **Why needed**: Traffic metrics alongside performance data
 
@@ -922,7 +953,7 @@ A Vercel account is required for:
 - [ ] Verified Google Analytics 4 setup (or created new property)
 - [ ] Noted your Property ID (format: `properties/123456789`)
 
-> **Note**: You are creating the Google Analytics account here. The API credentials (service account key and property ID) that connect the dashboard to your Analytics data are configured in Step 12.
+> **Note**: You are creating the Google Analytics account here. The API credentials (service account key and property ID) that connect the dashboard to your Analytics data are configured in Step 11.
 
 ✅ **Checkpoint**: All accounts created
 
@@ -1022,7 +1053,7 @@ After installing, restart your terminal and try again.
 
 Configure the accounts you just created and generate your security credentials.
 
-#### Step 9: Configure Target Site
+#### Step 8: Configure Target Site
 
 Add your website's information to `.env.local`.
 
@@ -1050,7 +1081,7 @@ Save the file (Ctrl+S / Cmd+S).
 
 ---
 
-#### Step 10: Generate Secrets
+#### Step 9: Generate Secrets
 
 **Estimated time**: 3 minutes
 
@@ -1078,9 +1109,9 @@ npm run setup:secrets:windows
 
 **Do this right now, before anything else:**
 
-Copy the `CI_UPLOAD_SIGNING_KEY` value into your `.env.local` file immediately after generation. Your `.env.local` file is your backup. You will need this exact value again in Step 15 (Vercel) and Step 18 (GitHub). If you lose it before completing both steps, you must regenerate it and update both locations.
+Copy the `CI_UPLOAD_SIGNING_KEY` value into your `.env.local` file immediately after generation. Your `.env.local` file is your backup. You will need this exact value again in Step 14 (Vercel) and Step 17 (GitHub). If you lose it before completing both steps, you must regenerate it and update both locations.
 
-If you close your terminal or lose the value before Step 18, go back to your `.env.local` file — the value is there. Do not regenerate unless you have lost both the terminal output and the `.env.local` file.
+If you close your terminal or lose the value before Step 17, go back to your `.env.local` file — the value is there. Do not regenerate unless you have lost both the terminal output and the `.env.local` file.
 
 **Add to .env.local immediately**:
 
@@ -1122,8 +1153,8 @@ If they don't match, GitHub Actions will run successfully, but your dashboard wo
 
 Copy this key to a temporary notepad/text file. You'll paste it into:
 
-1. Vercel environment variables (Step 15)
-2. GitHub repository secrets (Step 18)
+1. Vercel environment variables (Step 14)
+2. GitHub repository secrets (Step 17)
 
 Triple-check they're identical — even one wrong character breaks everything.
 
@@ -1160,7 +1191,7 @@ Triple-check they're identical — even one wrong character breaks everything.
 
 ---
 
-#### Step 11: Set Up Google OAuth
+#### Step 10: Set Up Google OAuth
 
 **Estimated time**: 10 minutes
 
@@ -1237,12 +1268,12 @@ Save the file (Ctrl+S / Cmd+S).
 
 **⏰ Timing Note - Two-Step Process**:
 
-You'll come back to update the OAuth redirect URI in Step 17 (after Vercel deployment). This is a normal two-step process:
+You'll come back to update the OAuth redirect URI in Step 16 (after Vercel deployment). This is a normal two-step process:
 
-1. **NOW (Step 11)**: Create OAuth credentials with redirect URIs left blank
-2. **LATER (Step 17)**: Update with actual Vercel URL
+1. **NOW (Step 10)**: Create OAuth credentials with redirect URIs left blank
+2. **LATER (Step 16)**: Update with actual Vercel URL
 
-**Why the delay?** You can't add the real redirect URL yet because you don't have a Vercel URL until Step 14. Don't worry — this is expected and normal.
+**Why the delay?** You can't add the real redirect URL yet because you don't have a Vercel URL until Step 13. Don't worry — this is expected and normal.
 
 **Checklist**:
 
@@ -1251,7 +1282,7 @@ You'll come back to update the OAuth redirect URI in Step 17 (after Vercel deplo
 - [ ] Copied `GOOGLE_CLIENT_ID` to `.env.local`
 - [ ] Copied `GOOGLE_CLIENT_SECRET` to `.env.local`
 - [ ] Saved `.env.local`
-- [ ] Left redirect URIs blank (will add later in Step 17)
+- [ ] Left redirect URIs blank (will add later in Step 16)
 
 **✅ Verify Success**:
 
@@ -1273,7 +1304,7 @@ You'll come back to update the OAuth redirect URI in Step 17 (after Vercel deplo
 
 ---
 
-#### Step 12: Set Up Google Analytics + Search Console
+#### Step 11: Set Up Google Analytics + Search Console
 
 **Why needed**: Fetch traffic metrics and search performance data
 
@@ -1371,11 +1402,11 @@ Save the file (Ctrl+S / Cmd+S).
 
 ---
 
-#### Step 13: Validate Your Configuration
+#### Step 12: Validate Your Configuration
 
-**You've created your `.env.local` file in Step 2** and added credentials in Steps 4–12. Now validate that all required variables are set correctly.
+**You've created your `.env.local` file in Step 2** and added credentials in Steps 3–11. Now validate that all required variables are set correctly.
 
-> **Note**: This is a partial check. Three variables — `DASHBOARD_URL`, `KV_REST_API_URL`, and `KV_REST_API_TOKEN` — will show as missing. That's expected: they don't exist until after you deploy to Vercel (Step 15). Focus on fixing any other missing variables before proceeding.
+> **Note**: This is a partial check. Three variables — `DASHBOARD_URL`, `KV_REST_API_URL`, and `KV_REST_API_TOKEN` — will show as missing. That's expected: they don't exist until after you deploy to Vercel (Step 14). Focus on fixing any other missing variables before proceeding.
 
 **Run the validation script** — make sure your terminal is in your project folder, then run:
 
@@ -1424,7 +1455,7 @@ You should see output like this:
 All required variables validated successfully!
 ```
 
-**✅ If you see this** (with `DASHBOARD_URL`, `KV_REST_API_URL`, `KV_REST_API_TOKEN` as the only failures): Continue to Phase 3 — those three are resolved in Step 15
+**✅ If you see this** (with `DASHBOARD_URL`, `KV_REST_API_URL`, `KV_REST_API_TOKEN` as the only failures): Continue to Phase 3 — those three are resolved in Step 14
 
 **❌ If you see errors**:
 
@@ -1445,28 +1476,28 @@ All required variables validated successfully!
 
 #### Required Variables Reference
 
-Use this table to look up which step generated each variable. All variables in this table are populated across Steps 1–18 and validated in Step 16.
+Use this table to look up which step generated each variable. All variables in this table are populated across Steps 1–17 and validated in Step 15.
 
 | Variable | Source | Notes |
 | -------- | ------ | ----- |
 | `TARGET_BASE_URL` | Your website | Full URL with https:// |
 | `TARGET_DOMAIN` | Your website | Domain only, no https:// |
-| `DASHBOARD_URL` | Vercel (Step 14) | Set after first deployment |
+| `DASHBOARD_URL` | Vercel (Step 13) | Set after first deployment |
 | `NEXTAUTH_URL` | Same as DASHBOARD_URL | Must match exactly |
-| `NEXTAUTH_SECRET` | Generated (Step 10) | 32+ chars |
-| `CI_UPLOAD_SIGNING_KEY` | Generated (Step 10) | **Must be identical in Vercel AND GitHub** |
-| `GOOGLE_CLIENT_ID` | Google Cloud (Step 11) | |
-| `GOOGLE_CLIENT_SECRET` | Google Cloud (Step 11) | |
-| `KV_REST_API_URL` | Vercel KV (Step 14) | Auto-populated after KV setup |
-| `KV_REST_API_TOKEN` | Vercel KV (Step 14) | Auto-populated after KV setup |
-| `ANTHROPIC_API_KEY` | Anthropic (Step 5) | |
+| `NEXTAUTH_SECRET` | Generated (Step 9) | 32+ chars |
+| `CI_UPLOAD_SIGNING_KEY` | Generated (Step 9) | **Must be identical in Vercel AND GitHub** |
+| `GOOGLE_CLIENT_ID` | Google Cloud (Step 10) | |
+| `GOOGLE_CLIENT_SECRET` | Google Cloud (Step 10) | |
+| `KV_REST_API_URL` | Vercel KV (Step 13) | Auto-populated after KV setup |
+| `KV_REST_API_TOKEN` | Vercel KV (Step 13) | Auto-populated after KV setup |
+| `ANTHROPIC_API_KEY` | Anthropic (Step 4) | |
 | `AI_MODEL` | Fixed value | `claude-3-5-haiku-20241022` |
-| `DATAFORSEO_LOGIN` | DataForSEO (Step 6) | Your account email |
-| `DATAFORSEO_PASSWORD` | DataForSEO (Step 6) | API password (not account password) |
+| `DATAFORSEO_LOGIN` | DataForSEO (Step 5) | Your account email |
+| `DATAFORSEO_PASSWORD` | DataForSEO (Step 5) | API password (not account password) |
 | `DATAFORSEO_LOCATION_CODE` | DataForSEO | `2840` = USA. **Change this if your target audience is not in the US.** See [location codes](https://docs.dataforseo.com/v3/appendix/locations_and_languages/) |
 | `DATAFORSEO_LANGUAGE_CODE` | DataForSEO | `en` = English. Change if needed. |
-| `GOOGLE_ANALYTICS_PROPERTY_ID` | Google Analytics (Step 8/12) | Format: `properties/123456789` |
-| `GOOGLE_SERVICE_ACCOUNT_JSON` | Google Cloud (Step 12) | Entire JSON on one line — see warning below |
+| `GOOGLE_ANALYTICS_PROPERTY_ID` | Google Analytics (Step 7/11) | Format: `properties/123456789` |
+| `GOOGLE_SERVICE_ACCOUNT_JSON` | Google Cloud (Step 11) | Entire JSON on one line — see warning below |
 
 > **⚠️ `GOOGLE_SERVICE_ACCOUNT_JSON` Warning**: This JSON must be flattened to a
 > single line. Do not use a text editor that converts `\n` sequences to real newlines
@@ -1481,7 +1512,7 @@ Use this table to look up which step generated each variable. All variables in t
 
 Deploy your dashboard to Vercel and connect GitHub Actions.
 
-#### Step 14: Deploy to Vercel
+#### Step 13: Deploy to Vercel
 
 **Estimated time**: 10 minutes
 
@@ -1501,7 +1532,7 @@ This step has three parts that must happen in order:
 7. Wait for deployment to complete (~2 minutes)
 8. Copy your Vercel URL: `https://your-project-abc123.vercel.app`
 
-> **⚠️ The initial deployment will fail** — this is expected. Environment variables are not set yet. You will add them in Step 15 and redeploy. The failed deployment still gives you your Vercel URL, which you need for the next steps.
+> **⚠️ The initial deployment will fail** — this is expected. Environment variables are not set yet. You will add them in Step 14 and redeploy. The failed deployment still gives you your Vercel URL, which you need for the next steps.
 
 **Update your `.env.local` file**:
 ```bash
@@ -1564,7 +1595,7 @@ After KV is linked:
 
 ---
 
-#### Step 15: Upload Environment Variables to Vercel
+#### Step 14: Upload Environment Variables to Vercel
 
 Add **all** your environment variables to Vercel.
 
@@ -1606,7 +1637,7 @@ Add **all** your environment variables to Vercel.
 
 > **⚠️ CRITICAL: Copy from Vercel, Not Your Notes**
 >
-> When adding `CI_UPLOAD_SIGNING_KEY` to GitHub (Step 18), copy it directly from Vercel Environment Variables — not from your notes or `.env.local` file. This ensures exact character-by-character match.
+> When adding `CI_UPLOAD_SIGNING_KEY` to GitHub (Step 17), copy it directly from Vercel Environment Variables — not from your notes or `.env.local` file. This ensures exact character-by-character match.
 
 **After adding all variables**:
 1. Go to **Deployments** tab
@@ -1628,7 +1659,7 @@ Add **all** your environment variables to Vercel.
 1. Go to **Deployments** tab in your Vercel project
 2. Latest deployment should show a green checkmark (not red X)
 3. Click on the deployment URL
-4. You should see the sign-in page (OAuth won't work yet — that's Step 17)
+4. You should see the sign-in page (OAuth won't work yet — that's Step 16)
 
 > **Advanced check**: Open your browser's developer tools (press F12 on Windows or Option+Command+I on Mac), click the Console tab, and confirm there are no red errors mentioning missing environment variables.
 
@@ -1644,7 +1675,7 @@ Add **all** your environment variables to Vercel.
 
 ---
 
-#### Step 16: Verify Full Configuration
+#### Step 15: Verify Full Configuration
 
 **Estimated time**: 2 minutes
 
@@ -1659,9 +1690,9 @@ npm run setup:validate
 This checks all 18 required variables. You should now get a clean pass with no missing variables.
 
 **❌ If validation fails**:
-- Check that you completed all fields in the Vercel environment variables step (Step 15)
-- If `KV_REST_API_URL` or `KV_REST_API_TOKEN` are missing, confirm you added Vercel KV storage in Step 14
-- If `DASHBOARD_URL` is missing, add it manually in Vercel: your dashboard URL from Step 14
+- Check that you completed all fields in the Vercel environment variables step (Step 14)
+- If `KV_REST_API_URL` or `KV_REST_API_TOKEN` are missing, confirm you added Vercel KV storage in Step 13
+- If `DASHBOARD_URL` is missing, add it manually in Vercel: your dashboard URL from Step 13
 - Re-run `npm run setup:validate` after fixing each variable
 
 **Checklist**:
@@ -1673,9 +1704,9 @@ This checks all 18 required variables. You should now get a clean pass with no m
 
 ---
 
-#### Step 17: Update Google OAuth Redirect URI
+#### Step 16: Update Google OAuth Redirect URI
 
-**⏰ Returning from Step 11**: Remember when you left the redirect URI blank? Now that you have your Vercel URL from Step 14, it's time to add it.
+**⏰ Returning from Step 10**: Remember when you left the redirect URI blank? Now that you have your Vercel URL from Step 13, it's time to add it.
 
 1. Go to [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
 2. Click **APIs & Services** → **Credentials**
@@ -1684,7 +1715,7 @@ This checks all 18 required variables. You should now get a clean pass with no m
 5. Enter: `https://your-project-abc123.vercel.app/api/auth/callback/google`
    - Replace with your actual Vercel URL
    - **Important**: No trailing slash
-   - Must be exact URL from Step 14
+   - Must be exact URL from Step 13
 6. Click **Save**
 
 **Checklist**:
@@ -1719,7 +1750,7 @@ This checks all 18 required variables. You should now get a clean pass with no m
 
 ---
 
-#### Step 18: Configure GitHub Actions
+#### Step 17: Configure GitHub Actions
 
 **⚠️ CRITICAL: Two-Location Check**
 
@@ -1788,7 +1819,7 @@ If they don't match exactly, you'll get 401 Unauthorized errors (the #1 setup fa
 
 Verify everything works end-to-end.
 
-#### Step 19: Test Live API Connections
+#### Step 18: Test Live API Connections
 
 **Estimated time**: 2 minutes
 
@@ -1818,7 +1849,7 @@ This tests live connections to: Anthropic, DataForSEO, Google Analytics, and Ver
 
 ---
 
-#### Step 20: Run Your First Scan
+#### Step 19: Run Your First Scan
 
 **Estimated time**: 10 minutes (5 min setup + 5 min wait for scan)
 
@@ -1876,7 +1907,7 @@ This tests live connections to: Anthropic, DataForSEO, Google Analytics, and Ver
 
 ---
 
-#### Step 21: Verify Dashboard Features
+#### Step 20: Verify Dashboard Features
 
 1. Open your `DASHBOARD_URL` (or custom domain)
 2. Click **Sign in with Google**
@@ -1937,8 +1968,8 @@ This tests live connections to: Anthropic, DataForSEO, Google Analytics, and Ver
 
 | Problem | Most Likely Cause | Quick Fix |
 |---------|------------------|-----------|
-| Can't sign in | OAuth redirect URI mismatch | Step 17 — verify exact URL |
-| No data showing | CI_UPLOAD_SIGNING_KEY mismatch | Step 18 — copy from Vercel |
+| Can't sign in | OAuth redirect URI mismatch | Step 16 — verify exact URL |
+| No data showing | CI_UPLOAD_SIGNING_KEY mismatch | Step 17 — copy from Vercel |
 | No AI insights | ANTHROPIC_API_KEY missing | Add key to Vercel, redeploy |
 | No competitors | DataForSEO balance or credentials | Check account balance |
 | No analytics | Service account access | Grant Viewer role in GA |
@@ -2286,7 +2317,7 @@ This is the #1 setup failure — ensure values match exactly.
    - Open browser: `https://yoursite.com/sitemap.xml`
    - Should show XML with URLs listed
 2. If sitemap is at different location:
-   - Set `SITEMAP_URL` in your `.env.local` and in GitHub Secrets (see [Step 18](#step-18-configure-github-actions))
+   - Set `SITEMAP_URL` in your `.env.local` and in GitHub Secrets (see [Step 17](#step-17-configure-github-actions))
    - Example: `SITEMAP_URL=https://yoursite.com/sitemap_index.xml`
 3. If no sitemap exists:
    - **Next.js**: Add [next-sitemap](https://www.npmjs.com/package/next-sitemap) package
